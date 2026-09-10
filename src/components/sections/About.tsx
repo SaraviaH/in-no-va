@@ -1,13 +1,15 @@
 import { siteConfig } from "../../config/site";
+import { images } from "../../assets/images";
+import { onImageError } from "../../utils/image";
 
 export function About() {
   return (
     <section id="nosotros" className="py-16 lg:py-20 bg-[#F5EFE2]">
       <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))] grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="grid grid-cols-[1.15fr_0.85fr] gap-3 order-2 lg:order-1">
-          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=600&auto=format&fit=crop" alt="Telas" className="rounded-[20px] aspect-[3/4] object-cover border border-[#DDD2BB] shadow-[0_10px_28px_rgba(46,42,36,0.09)]" />
+          <img src={images.nosotros.telas} alt="Telas - selección curada" onError={onImageError} className="rounded-[20px] aspect-[3/4] object-cover border border-[#DDD2BB] shadow-[0_10px_28px_rgba(46,42,36,0.09)] bg-white" />
           <div className="flex flex-col gap-3">
-            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop" alt="Textura" className="rounded-[20px] aspect-square object-cover border border-[#DDD2BB] shadow-sm" />
+            <img src={images.nosotros.textura} alt="Textura - detalle fibra" onError={onImageError} className="rounded-[20px] aspect-square object-cover border border-[#DDD2BB] shadow-sm bg-white" />
             <div className="bg-[#1A2E2A] text-white rounded-[20px] p-5 flex flex-col justify-center flex-1 border border-[#1A2E2A] shadow-[0_10px_28px_rgba(26,46,42,0.18)]">
               <div className="font-black text-[36px] leading-none tracking-tight">+8</div>
               <div className="text-[13px] opacity-80 leading-tight mt-1">años vistiendo ideas<br /><span className="font-bold opacity-100">en Gamarra</span></div>
@@ -35,7 +37,7 @@ export function About() {
             ))}
           </div>
           <div className="flex items-center gap-3 mt-6">
-            <img src="https://i.pravatar.cc/100?img=12" alt="" className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" />
+            <img src={images.nosotros.avatarEquipo} alt="Equipo Kotton" onError={onImageError} className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm bg-white" />
             <div className="text-xs leading-tight">
               <div className="font-bold text-[#1A2E2A]">Equipo Kotton Kids</div>
               <div className="text-[#6B6560]">Gamarra, La Victoria · Lima</div>

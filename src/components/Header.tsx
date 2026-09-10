@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { siteConfig } from "../config/site";
+import { images } from "../assets/images";
+import { onImageError } from "../utils/image";
 
 export function Header({
   cartCount,
@@ -14,9 +16,9 @@ export function Header({
   return (
     <header className="sticky top-0 z-40 bg-[#FFFBF5]/85 backdrop-blur-xl border-b border-[#DDD2BB] supports-[backdrop-filter]:bg-[#FFFBF5]/75">
       <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))] flex items-center gap-4 h-[68px]">
-        {/* logo */}
+        {/* logo - recurso local */}
         <a href="#inicio" className="flex items-center gap-2.5 shrink-0 group">
-          <span className="w-9 h-9 rounded-xl bg-[#9E4D2E] grid place-items-center text-white font-extrabold text-[13px] tracking-wide shadow-[0_6px_16px_rgba(158,77,46,0.28)] group-hover:bg-[#864128] transition-colors">KK</span>
+          <img src={images.logo.main} alt="Kotton Kids" onError={onImageError} className="w-9 h-9 rounded-xl object-cover shadow-[0_6px_16px_rgba(158,77,46,0.28)] border border-[#DDD2BB] bg-white" />
           <span className="font-[Fraunces] font-extrabold text-[19px] tracking-[-0.02em] text-[#1A2E2A]">
             Kotton<span className="text-[#9E4D2E]"> Kids</span>
           </span>

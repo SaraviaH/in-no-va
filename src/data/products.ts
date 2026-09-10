@@ -1,4 +1,5 @@
 import type { Product } from "../types/product";
+import { images } from "../assets/images";
 
 export const products: Product[] = [
   {
@@ -12,11 +13,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Suavidad extrema",
     precioReferencial: 45.0,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["algodon-premium"],
     categoria: "algodon",
     usos: ["Camisas", "Blusas", "Ropa bebé"],
     destacado: true,
@@ -32,9 +29,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Frescura veraniega",
     precioReferencial: 62.5,
     disponibilidad: "Pocas unidades",
-    imagenes: [
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["lino-natural"],
     categoria: "lino",
     usos: ["Vestidos", "Pantalones", "Cortinas ligeras"],
     destacado: true,
@@ -50,10 +45,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Elasticidad confortable",
     precioReferencial: 38.0,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["mezcla-soft"],
     categoria: "mezclas",
     usos: ["Polos", "Vestidos casuales", "Joggers"],
     destacado: true,
@@ -69,10 +61,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Resistencia urbana",
     precioReferencial: 55.0,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["denim-organico"],
     categoria: "denim",
     usos: ["Jeans", "Chaquetas", "Overalls"],
     destacado: true,
@@ -88,9 +77,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Brillo líquido",
     precioReferencial: 89.9,
     disponibilidad: "Bajo pedido",
-    imagenes: [
-      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["seda-charmeuse"],
     categoria: "seda",
     usos: ["Blusas", "Vestidos noche", "Pañuelos"],
     destacado: false,
@@ -106,11 +93,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Elasticidad acogedora",
     precioReferencial: 32.0,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["punto-canale"],
     categoria: "punto",
     usos: ["Cardigans", "Tops", "Ropa niños"],
     destacado: true,
@@ -126,9 +109,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Sostenibilidad natural",
     precioReferencial: 28.5,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["algodon-crudo"],
     categoria: "algodon",
     usos: ["Tote bags", "Camisas", "Decoración"],
     destacado: false,
@@ -144,10 +125,7 @@ export const products: Product[] = [
     caracteristicaPrincipal: "Trama mediterránea",
     precioReferencial: 58.0,
     disponibilidad: "En stock",
-    imagenes: [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-    ],
+    imagenes: images.products["lino-terracota"],
     categoria: "lino",
     usos: ["Manteles", "Vestidos", "Cortinas"],
     destacado: false,

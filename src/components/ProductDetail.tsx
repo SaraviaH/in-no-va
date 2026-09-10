@@ -3,6 +3,7 @@ import type { Product } from "../types/product";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { QuantitySelector } from "./QuantitySelector";
+import { resolveImage, resolveImages, onImageError } from "../utils/image";
 
 export function ProductDetail({
   product,
@@ -18,6 +19,7 @@ export function ProductDetail({
   const [active, setActive] = useState(0);
   const [qty, setQty] = useState(1);
   const tone = product.disponibilidad === "En stock" ? "success" : product.disponibilidad === "Pocas unidades" ? "warning" : "accent";
+  const gallery = resolveImages(product.imagenes);
 
   return (
     <div>
@@ -25,17 +27,17 @@ export function ProductDetail({
         {/* gallery */}
         <div className="p-4 sm:p-5 bg-[#F5EFE2] lg:border-r border-b lg:border-b-0 border-[#DDD2BB]">
           <div className="bg-white rounded-[18px] overflow-hidden border border-[#DDD2BB] aspect-[4/3] shadow-sm">
-            <img src={product.imagenes[active]} alt={product.nombre} className="w-full h-full object-cover" />
+            <img src={gallery[active] ?? resolveImage(product.imagenes[0])} alt={product.nombre} onError={onImageError} className="w-full h-full object-cover" />
           </div>
-          {product.imagenes.length > 1 ? (
+          {gallery.length > 1 ? (
             <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
-              {product.imagenes.map((img, i) => (
+              {gallery.map((img, i) => (
                 <button
                   key={img + i}
                   onClick={() => setActive(i)}
                   className={`w-[72px] h-[72px] rounded-xl overflow-hidden border-2 shrink-0 cursor-pointer transition-all ${i === active ? "border-[#9E4D2E] opacity-100 shadow-sm" : "border-[#DDD2BB] opacity-80 hover:opacity-100"}`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={img} alt="" onError={onImageError} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

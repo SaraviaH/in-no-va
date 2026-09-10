@@ -1,5 +1,7 @@
 import { siteConfig } from "../../config/site";
 import { Button } from "../Button";
+import { images } from "../../assets/images";
+import { onImageError } from "../../utils/image";
 
 export function Hero({ onCatalog, onAi }: { onCatalog: () => void; onAi: () => void }) {
   return (
@@ -30,8 +32,8 @@ export function Hero({ onCatalog, onAi }: { onCatalog: () => void; onAi: () => v
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-7 pt-6 border-t border-[#DDD2BB]/70">
               <div className="flex items-center gap-3">
                 <span className="flex">
-                  {[1, 2, 3].map(i => (
-                    <img key={i} src={`https://i.pravatar.cc/100?img=${10 + i}`} alt="" className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0 object-cover shadow-sm" />
+                  {images.ui.avatars.map((src, i) => (
+                    <img key={i} src={src} alt="" onError={onImageError} className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0 object-cover shadow-sm bg-white" />
                   ))}
                 </span>
                 <span className="text-[12px] font-bold leading-tight">+1.2k proyectos<br /><span className="font-normal text-[#6B6560]">asesorados este mes</span></span>
@@ -48,9 +50,9 @@ export function Hero({ onCatalog, onAi }: { onCatalog: () => void; onAi: () => v
           </div>
 
           <div className="relative lg:pl-4">
-            {/* main image card */}
+            {/* main image card - hero local */}
             <div className="rounded-[28px] overflow-hidden border border-[#DDD2BB] shadow-[0_18px_40px_rgba(46,42,36,0.13)] bg-white aspect-[4/3.15] relative">
-              <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1000&auto=format&fit=crop" alt="Telas Kotton" className="w-full h-full object-cover" />
+              <img src={images.hero.main} alt="Telas Kotton - colección local" onError={onImageError} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A2E2A]/20 via-transparent to-transparent pointer-events-none" />
             </div>
 
@@ -65,8 +67,8 @@ export function Hero({ onCatalog, onAi }: { onCatalog: () => void; onAi: () => v
               <div className="bg-[#F5EFE2] rounded-xl p-2.5 sm:p-3 mt-2.5 text-[12px] leading-[1.5] border border-[#DDD2BB] text-[#2E2A24]">
                 Para una blusa fresca te recomiendo estas opciones:
                 <div className="flex gap-1.5 mt-2">
-                  {["https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=200&auto=format&fit=crop"].map(src => (
-                    <img key={src} src={src} alt="" className="w-16 h-11 rounded-lg object-cover border border-[#DDD2BB]" />
+                  {[images.products["algodon-premium"][0], images.products["lino-natural"][0], images.products["mezcla-soft"][0]].map(src => (
+                    <img key={src} src={src} alt="" onError={onImageError} className="w-16 h-11 rounded-lg object-cover border border-[#DDD2BB] bg-white" />
                   ))}
                 </div>
               </div>

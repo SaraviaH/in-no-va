@@ -2,6 +2,7 @@ import { useCart } from "../hooks/useCart";
 import { siteConfig } from "../config/site";
 import { Button } from "./Button";
 import { QuantitySelector } from "./QuantitySelector";
+import { resolveImage, onImageError } from "../utils/image";
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, updateQty, remove, total, totalUnits, count, whatsappLink } = useCart();
@@ -30,7 +31,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
           ) : (
             items.map(it => (
               <div key={it.product.id} className="bg-[#FFFBF5] border border-[#DDD2BB] rounded-2xl p-2.5 flex gap-2.5 items-center shadow-sm hover:border-[#C9B99A] transition-colors">
-                <img src={it.product.imagenes[0]} alt={it.product.nombre} className="w-16 h-16 rounded-xl object-cover border border-[#DDD2BB] shrink-0" />
+                <img src={resolveImage(it.product.imagenes[0])} alt={it.product.nombre} onError={onImageError} className="w-16 h-16 rounded-xl object-cover border border-[#DDD2BB] shrink-0 bg-white" />
                 <div className="flex-1 min-w-0">
                   <div className="font-bold text-[13px] truncate text-[#1A2E2A]">{it.product.nombre}</div>
                   <div className="text-[11px] text-[#6B6560]">{it.product.tipo} · S/ {it.product.precioReferencial.toFixed(2)}</div>

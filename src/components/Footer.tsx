@@ -1,4 +1,6 @@
 import { siteConfig } from "../config/site";
+import { images } from "../assets/images";
+import { onImageError } from "../utils/image";
 
 export function Footer() {
   return (
@@ -7,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.95fr] gap-8 lg:gap-10">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="w-9 h-9 rounded-xl bg-[#9E4D2E] grid place-items-center text-white font-extrabold text-xs shadow-md">KK</span>
+              <img src={images.logo.main} alt="Kotton Kids" onError={onImageError} className="w-9 h-9 rounded-xl object-cover shadow-md border border-white/15 bg-white" />
               <span className="font-[Fraunces] font-extrabold text-[18px] tracking-tight text-[#FFFBF5]">Kotton Kids</span>
               <span className="hidden sm:inline-flex text-[10px] leading-none tracking-[0.12em] font-bold bg-white/10 border border-white/15 px-2 py-1 rounded-full text-white/80">GAMARRA · LIMA</span>
             </div>

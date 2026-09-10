@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "./Button";
 import type { Product, ChatMessage } from "../types/product";
 import { api } from "../services/api";
+import { resolveImage, onImageError } from "../utils/image";
+import { images } from "../assets/images";
 
 export function AiBubble({
   open,
@@ -59,7 +61,7 @@ export function AiBubble({
       {open && (
         <div className="fixed right-[18px] bottom-[86px] z-[45] w-[min(380px,calc(100%-24px))] h-[min(560px,calc(100dvh-110px))] bg-[#FFFBF5] rounded-[22px] border border-[#DDD2BB] shadow-[0_22px_48px_rgba(26,46,42,0.22)] overflow-hidden flex flex-col animate-[fadeIn_0.18s_ease]">
           <div className="bg-[#1A2E2A] text-white px-3.5 py-3.5 flex items-center gap-2.5">
-            <span className="w-9 h-9 rounded-full bg-white text-[#1A2E2A] grid place-items-center font-black text-sm">✦</span>
+            <img src={images.ui.aiAvatar} alt="Kotton AI" onError={onImageError} className="w-9 h-9 rounded-full border border-white/20 bg-white object-cover shrink-0" />
             <div>
               <div className="font-extrabold text-sm flex items-center gap-1.5">Kotton AI <span className="w-2 h-2 rounded-full bg-[#2FEAA1] shadow-[0_0_0_5px_rgba(47,234,161,0.18)] animate-pulse inline-block" /></div>
               <div className="text-[11px] opacity-80">Asistente textil · en línea</div>
@@ -78,7 +80,7 @@ export function AiBubble({
                   <div className="flex flex-col gap-2 mt-2 w-full">
                     {m.products.map(p => (
                       <div key={p.id} className="bg-white border border-[#DDD2BB] rounded-xl p-2 flex gap-2 items-center shadow-sm">
-                        <img src={p.imagenes[0]} alt={p.nombre} className="w-[52px] h-[52px] rounded-lg object-cover border border-[#DDD2BB] shrink-0" />
+                        <img src={resolveImage(p.imagenes[0])} alt={p.nombre} onError={onImageError} className="w-[52px] h-[52px] rounded-lg object-cover border border-[#DDD2BB] shrink-0 bg-white" />
                         <div className="flex-1 min-w-0">
                           <div className="font-extrabold text-xs truncate text-[#1A2E2A]">{p.nombre}</div>
                           <div className="text-[11px] text-[#6B6560]">{p.tipo} · S/ {p.precioReferencial.toFixed(2)}</div>

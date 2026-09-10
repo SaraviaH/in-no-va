@@ -1,4 +1,5 @@
 import type { Category } from "../types/product";
+import { resolveImage, onImageError } from "../utils/image";
 
 export function CategoryCard({ cat, onClick }: { cat: Category; onClick?: () => void }) {
   return (
@@ -6,7 +7,7 @@ export function CategoryCard({ cat, onClick }: { cat: Category; onClick?: () => 
       onClick={onClick}
       className="group relative overflow-hidden rounded-[22px] border border-[#DDD2BB] aspect-[4/3] w-full text-left bg-[#1A2E2A] shadow-[0_8px_28px_rgba(46,42,36,0.08)] hover:shadow-[0_14px_36px_rgba(46,42,36,0.13)] transition-all duration-300 hover:-translate-y-1 cursor-pointer"
     >
-      <img src={cat.imagen} alt={cat.nombre} className="w-full h-full object-cover opacity-[0.92] group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
+      <img src={resolveImage(cat.imagen)} alt={cat.nombre} onError={onImageError} className="w-full h-full object-cover opacity-[0.92] group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#1A2E2A]/85 via-[#1A2E2A]/20 to-transparent" />
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-[#9E4D2E]/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-white">

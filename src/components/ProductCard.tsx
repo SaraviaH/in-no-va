@@ -1,6 +1,7 @@
 import type { Product } from "../types/product";
 import { Badge } from "./Badge";
 import { Button } from "./Button";
+import { resolveImage, onImageError } from "../utils/image";
 
 export function ProductCard({
   product,
@@ -16,9 +17,9 @@ export function ProductCard({
 
   return (
     <div className="group bg-[#FFFBF5] rounded-[22px] overflow-hidden border border-[#DDD2BB] shadow-[0_8px_28px_rgba(46,42,36,0.08)] flex flex-col hover:shadow-[0_14px_36px_rgba(46,42,36,0.13)] hover:-translate-y-1 transition-all duration-300">
-      {/* image */}
+      {/* image: usa primera imagen como principal (local-first, compatible URL futura) */}
       <div className="relative aspect-[4/3] overflow-hidden bg-[#EBE0C8]">
-        <img src={product.imagenes[0]} alt={product.nombre} className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
+        <img src={resolveImage(product.imagenes[0])} alt={product.nombre} onError={onImageError} className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
         <div className="absolute top-3 left-3 right-3 flex justify-between items-center">
           <Badge tone={availabilityTone as never}>{product.disponibilidad}</Badge>
           {product.imagenes.length > 1 && (

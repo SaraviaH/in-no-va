@@ -1,5 +1,7 @@
 export type ProductCategoryId = "algodon" | "lino" | "mezclas" | "seda" | "denim" | "punto";
 
+import type { ImageSource } from "./image";
+
 export interface Product {
   id: string;
   nombre: string;
@@ -10,7 +12,7 @@ export interface Product {
   caracteristicas: string[];
   precioReferencial: number;
   disponibilidad: "En stock" | "Pocas unidades" | "Bajo pedido";
-  imagenes: string[];
+  imagenes: ImageSource[];
   categoria: ProductCategoryId;
   usos: string[];
   destacado?: boolean;
@@ -21,7 +23,7 @@ export interface Category {
   id: ProductCategoryId;
   nombre: string;
   descripcion: string;
-  imagen: string;
+  imagen: ImageSource;
   count?: number;
 }
 
