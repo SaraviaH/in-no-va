@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,500;9..144,0,700;9..144,1,600&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root{
+  --color-primary:#B65C3D;
+  --color-primary-hover:#9E4F34;
+  --color-secondary:#2F5D50;
+  --color-accent:#D9A441;
+  --color-background:#FFF8EE;
+  --color-surface:#FFFFFF;
+  --color-surface-alt:#FFF0D9;
+  --color-text:#2B2B2B;
+  --color-text-secondary:#6B6B6B;
+  --color-border:#E8D9C5;
+  --color-muted:#F5EAD6;
+  --color-teal:#264E4B;
+  --color-sage:#8BA888;
+  --color-charcoal:#2B2B2B;
+
+  --radius-xs:8px;
+  --radius-sm:12px;
+  --radius-md:16px;
+  --radius-lg:22px;
+  --radius-xl:28px;
+  --radius-pill:999px;
+
+  --shadow-soft:0 6px 24px rgba(43,43,43,0.08);
+  --shadow-medium:0 10px 30px rgba(43,43,43,0.12);
+  --shadow-float:0 18px 40px rgba(43,43,43,0.18);
+
+  --font-heading:'Fraunces', Georgia, serif;
+  --font-body:'Inter', system-ui, sans-serif;
+  --font-accent:'Instrument Serif', Georgia, serif;
+
+  --container:1200px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--color-background);
+  color:var(--color-text);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block; max-width:100%}
+a{color:inherit; text-decoration:none}
+button{font-family:inherit}
+
+.container{
+  width:min(var(--container), calc(100% - 32px));
+  margin-inline:auto;
+}
+@media(max-width:640px){
+  .container{ width:min(var(--container), calc(100% - 20px)); }
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#DCCAB0;border-radius:999px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* animations */
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.45} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+/* utilities */
+.section-pad{padding:72px 0}
+@media(max-width:768px){ .section-pad{padding:48px 0} }
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--color-primary);font-weight:600;
+}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--color-primary);display:inline-block}
+.divider{height:1px;background:var(--color-border)}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:#2FEAA1;box-shadow:0 0 0 6px rgba(47,234,161,.18);animation:pulseDot 1.6s infinite}
