@@ -1,34 +1,45 @@
 export function HowItWorks() {
   const steps = [
-    { n: "01", t: "Cuéntanos qué necesitas", d: "Describe tu proyecto, prenda o sensación que buscas." },
-    { n: "02", t: "La IA interpreta tu solicitud", d: "Kotton AI entiende textura, caída y uso ideal." },
-    { n: "03", t: "Consulta las opciones del catálogo", d: "Cruza tu idea con telas reales disponibles." },
-    { n: "04", t: "Recibe recomendaciones", d: "Ve cards, compara y añade al carrito al instante." },
+    { n: "01", t: "Cuéntanos qué necesitas", d: "Describe tu proyecto, prenda o sensación que buscas.", icon: "◐" },
+    { n: "02", t: "La IA interpreta tu solicitud", d: "Kotton AI entiende textura, caída y uso ideal.", icon: "✦" },
+    { n: "03", t: "Consulta las opciones del catálogo", d: "Cruza tu idea con telas reales disponibles.", icon: "▦" },
+    { n: "04", t: "Recibe recomendaciones", d: "Ve cards, compara y añade al carrito al instante.", icon: "✧" },
   ];
   return (
-    <section id="como-funciona" className="section-pad" style={{ background: "#fff", borderTop: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)" }}>
-      <div className="container">
-        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
-          <span className="eyebrow" style={{ justifyContent: "center" }}>Flujo inteligente</span>
-          <h2 style={{ fontFamily: "var(--font-heading)", fontSize: 32, margin: "8px 0 0" }}>Cómo funciona</h2>
-          <p style={{ color: "var(--color-text-secondary)", marginTop: 8 }}>Cliente → IA → Catálogo → Recomendaciones</p>
+    <section id="como-funciona" className="py-16 lg:py-20 bg-[#FFFBF5] border-y border-[#DDD2BB]">
+      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))]">
+        <div className="text-center max-w-[640px] mx-auto">
+          <span className="inline-flex items-center gap-2.5 text-[11px] tracking-[0.16em] uppercase font-extrabold text-[#9E4D2E] justify-center">
+            <span className="w-6 h-px bg-[#9E4D2E] inline-block" /> Flujo inteligente <span className="w-6 h-px bg-[#9E4D2E] inline-block" />
+          </span>
+          <h2 className="font-[Fraunces] text-[32px] font-bold tracking-tight text-[#1A2E2A] mt-3">Cómo funciona</h2>
+          <p className="text-[#6B6560] mt-2 text-[14px]">Cliente → IA → Catálogo → Recomendaciones · Todo en segundos</p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginTop: 22 }} className="how-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
           {steps.map(s => (
-            <div key={s.n} style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", borderRadius: 18, padding: 16, position: "relative" }}>
-              <div style={{ fontSize: 11, fontWeight: 900, letterSpacing: ".1em", color: "var(--color-primary)" }}>{s.n}</div>
-              <div style={{ fontWeight: 800, marginTop: 6 }}>{s.t}</div>
-              <div style={{ fontSize: 13, color: "var(--color-text-secondary)", marginTop: 6, lineHeight: 1.5 }}>{s.d}</div>
+            <div key={s.n} className="group bg-[#F5EFE2] border border-[#DDD2BB] rounded-[18px] p-5 hover:bg-white hover:shadow-[0_10px_28px_rgba(46,42,36,0.08)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-[#EBE0C8] rounded-bl-[40px] opacity-0 group-hover:opacity-60 transition-opacity" />
+              <div className="flex items-center gap-3">
+                <span className="w-9 h-9 rounded-xl bg-[#1A2E2A] text-white grid place-items-center text-[13px] font-bold">{s.icon}</span>
+                <span className="text-[11px] font-black tracking-[0.12em] text-[#9E4D2E]">{s.n}</span>
+              </div>
+              <div className="font-bold text-[#1A2E2A] mt-4 leading-tight">{s.t}</div>
+              <div className="text-[13px] text-[#6B6560] mt-2 leading-relaxed">{s.d}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 16, flexWrap: "wrap", color: "var(--color-text-secondary)", fontSize: 12, fontWeight: 700 }}>
-          <span style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", padding: "6px 10px", borderRadius: 999 }}>Cliente</span> → <span style={{ background: "var(--color-secondary)", color: "#fff", padding: "6px 10px", borderRadius: 999 }}>IA</span> → <span style={{ background: "#fff", border: "1px solid var(--color-border)", padding: "6px 10px", borderRadius: 999 }}>Catálogo</span> → <span style={{ background: "var(--color-primary)", color: "#fff", padding: "6px 10px", borderRadius: 999 }}>Recomendaciones</span>
+        <div className="flex items-center justify-center gap-2 mt-7 flex-wrap text-xs font-bold text-[#6B6560]">
+          <span className="bg-[#F5EFE2] border border-[#DDD2BB] px-3 py-1.5 rounded-full text-[#1A2E2A]">Cliente</span>
+          <span className="text-[#C9B99A]">→</span>
+          <span className="bg-[#1A2E2A] text-white px-3 py-1.5 rounded-full">IA</span>
+          <span className="text-[#C9B99A]">→</span>
+          <span className="bg-white border border-[#DDD2BB] px-3 py-1.5 rounded-full text-[#1A2E2A]">Catálogo</span>
+          <span className="text-[#C9B99A]">→</span>
+          <span className="bg-[#9E4D2E] text-white px-3 py-1.5 rounded-full">Recomendaciones</span>
         </div>
       </div>
-      <style>{`@media(max-width:900px){ .how-grid{grid-template-columns:repeat(2,1fr) !important} } @media(max-width:520px){ .how-grid{grid-template-columns:1fr !important} }`}</style>
     </section>
   );
 }

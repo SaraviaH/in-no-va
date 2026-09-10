@@ -17,29 +17,26 @@ export function FeaturedProducts({
   const filters = ["Todos", "algodon", "lino", "mezclas", "denim"];
   const filtered = filter === "Todos" ? products : products.filter(p => p.categoria === filter);
   return (
-    <section id="catalogo" className="section-pad">
-      <div className="container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 16, flexWrap: "wrap" }}>
+    <section id="catalogo" className="py-14 lg:py-20 bg-[#F5EFE2] relative">
+      {/* subtle texture */}
+      <div className="absolute inset-0 pointer-events-none opacity-40" style={{ background: "radial-gradient(800px 400px at 80% 0%, rgba(26,46,42,0.04), transparent 70%)" }} />
+      <div className="relative mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
-            <span className="eyebrow">Selección Kotton</span>
-            <h2 style={{ fontFamily: "var(--font-heading)", fontSize: 32, margin: "8px 0 0" }}>Productos destacados</h2>
+            <span className="inline-flex items-center gap-2.5 text-[11px] tracking-[0.16em] uppercase font-extrabold text-[#9E4D2E]">
+              <span className="w-8 h-px bg-[#9E4D2E] inline-block" /> Selección Kotton
+            </span>
+            <h2 className="font-[Fraunces] text-[30px] sm:text-[32px] font-bold tracking-tight text-[#1A2E2A] mt-2">Productos destacados</h2>
+            <p className="text-[#6B6560] text-[13px] mt-1">Curaduría textil · calidad verificada · stock en Gamarra</p>
           </div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", background: "#fff", border: "1px solid var(--color-border)", padding: 4, borderRadius: 999 }}>
+          <div className="flex gap-1.5 flex-wrap bg-[#FFFBF5] border border-[#DDD2BB] p-1.5 rounded-full shadow-sm w-fit">
             {filters.map(f => (
               <button
                 key={f}
                 onClick={() => onFilter(f)}
-                style={{
-                  padding: "7px 12px",
-                  borderRadius: 999,
-                  border: "1px solid transparent",
-                  background: filter === f ? "var(--color-secondary)" : "transparent",
-                  color: filter === f ? "#fff" : "var(--color-text-secondary)",
-                  fontWeight: 800,
-                  fontSize: 12,
-                  cursor: "pointer",
-                  textTransform: "capitalize",
-                }}
+                className={`px-4 py-2 rounded-full text-xs font-extrabold capitalize transition-all cursor-pointer border ${
+                  filter === f ? "bg-[#1A2E2A] text-white border-[#1A2E2A] shadow-sm" : "bg-transparent text-[#6B6560] border-transparent hover:bg-[#EBE0C8] hover:text-[#1A2E2A]"
+                }`}
               >
                 {f}
               </button>
@@ -47,14 +44,16 @@ export function FeaturedProducts({
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginTop: 18 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 mt-7">
           {filtered.map(p => (
             <ProductCard key={p.id} product={p} onView={() => onView(p)} onAdd={() => onAdd(p)} />
           ))}
         </div>
-        {filtered.length === 0 && <div style={{ textAlign: "center", color: "var(--color-text-secondary)", marginTop: 18 }}>Sin productos en esta categoría.</div>}
+        {filtered.length === 0 && <div className="text-center text-[#6B6560] mt-10 bg-[#FFFBF5] border border-dashed border-[#DDD2BB] rounded-2xl py-10">Sin productos en esta categoría.</div>}
+        <div className="mt-8 flex justify-center">
+          <span className="text-[11px] tracking-[0.08em] uppercase font-bold text-[#6B6560] bg-[#EBE0C8] border border-[#DDD2BB] px-4 py-2 rounded-full">{filtered.length} productos · precios referenciales actualizados</span>
+        </div>
       </div>
-      <style>{`@media(max-width:1100px){ #catalogo .container > div:last-child{grid-template-columns:repeat(3,1fr) !important} } @media(max-width:760px){ #catalogo .container > div:last-child{grid-template-columns:repeat(2,1fr) !important} } @media(max-width:520px){ #catalogo .container > div:last-child{grid-template-columns:1fr !important} }`}</style>
     </section>
   );
 }

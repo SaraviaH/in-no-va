@@ -1,33 +1,33 @@
 export const theme = {
   colors: {
-    primary: "#B65C3D", // terracota
-    primaryHover: "#9E4F34",
-    secondary: "#2F5D50", // verde salvia / petróleo oscuro
-    accent: "#D9A441", // amarillo mostaza
-    background: "#FFF8EE", // crema / marfil
-    surface: "#FFFFFF",
-    surfaceAlt: "#FFF0D9",
-    text: "#2B2B2B", // carbón
-    textSecondary: "#6B6B6B",
-    border: "#E8D9C5",
-    muted: "#F5EAD6",
-    teal: "#264E4B", // azul petróleo
-    sage: "#8BA888",
-    success: "#2F7D62",
-    warning: "#D9A441",
+    primary: "#9E4D2E", // terracota opaco profesional, menos brillante
+    primaryHover: "#864128",
+    secondary: "#1A2E2A", // forest profundo, sofisticado
+    accent: "#C69A2E", // ámbar refinado
+    background: "#F5EFE2", // crema opaco cálido, menos brillante
+    surface: "#FFFBF5", // papel cálido
+    surfaceAlt: "#EDE3CC", // arena opaca
+    text: "#2E2A24", // tinta cálida (menos negro puro)
+    textSecondary: "#6B6560",
+    border: "#DDD2BB",
+    muted: "#EBE0C8",
+    teal: "#23433E",
+    sage: "#7A9B7D",
+    success: "#2E6B4F",
+    warning: "#8A6A1A",
   },
   radius: {
-    xs: "8px",
-    sm: "12px",
-    md: "16px",
-    lg: "22px",
-    xl: "28px",
+    xs: "10px",
+    sm: "14px",
+    md: "18px",
+    lg: "24px",
+    xl: "32px",
     pill: "999px",
   },
   shadows: {
-    soft: "0 6px 24px rgba(43,43,43,0.08)",
-    medium: "0 10px 30px rgba(43,43,43,0.12)",
-    floating: "0 18px 40px rgba(43,43,43,0.18)",
+    soft: "0 8px 28px rgba(46,42,36,0.08)",
+    medium: "0 14px 36px rgba(46,42,36,0.13)",
+    floating: "0 22px 48px rgba(26,46,42,0.18)",
   },
   spacing: {
     xs: "4px",

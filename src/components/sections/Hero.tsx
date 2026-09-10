@@ -3,66 +3,85 @@ import { Button } from "../Button";
 
 export function Hero({ onCatalog, onAi }: { onCatalog: () => void; onAi: () => void }) {
   return (
-    <section id="inicio" style={{ padding: "28px 0 18px" }}>
-      <div className="container hero-grid" style={{ display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: 24, alignItems: "center" }}>
-        <div>
-          <span className="eyebrow">Kotton Kids · Telas con intención</span>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 5vw, 52px)", lineHeight: .95, letterSpacing: "-.03em", margin: "14px 0 0" }}>
-            {siteConfig.texts.heroTitle.split(" ").slice(0, 3).join(" ")} <span style={{ fontStyle: "italic", fontWeight: 600, color: "var(--color-primary)", fontFamily: "var(--font-accent)" }}>{siteConfig.texts.heroTitle.split(" ").slice(3).join(" ")}</span>
-          </h1>
-          <p style={{ color: "var(--color-text-secondary)", fontSize: 16, lineHeight: 1.6, marginTop: 14, maxWidth: 520 }}>{siteConfig.texts.heroSubtitle}</p>
+    <section id="inicio" className="relative overflow-hidden">
+      {/* subtle editorial background */}
+      <div className="absolute inset-0 bg-[#F5EFE2]" />
+      <div className="absolute inset-0 opacity-[0.55]" style={{ background: "radial-gradient(600px 400px at 70% 20%, rgba(26,46,42,0.06), transparent 60%), radial-gradient(800px 600px at 10% 80%, rgba(158,77,46,0.07), transparent 60%)" }} />
+      <div className="relative mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))] py-8 sm:py-12 lg:py-16">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-10 items-center">
+          <div className="max-w-[640px]">
+            <span className="inline-flex items-center gap-2.5 text-[11px] tracking-[0.16em] uppercase font-extrabold text-[#9E4D2E]">
+              <span className="w-8 h-px bg-[#9E4D2E] inline-block" />
+              Kotton Kids · Telas con intención
+            </span>
+            <h1 className="font-[Fraunces] text-[32px] sm:text-[42px] lg:text-[54px] leading-[0.92] tracking-[-0.03em] mt-4 text-[#1A2E2A]">
+              {siteConfig.texts.heroTitle.split(" ").slice(0, 3).join(" ")}{" "}
+              <span className="italic font-semibold text-[#9E4D2E] font-[Instrument_Serif]">{siteConfig.texts.heroTitle.split(" ").slice(3).join(" ")}</span>
+            </h1>
+            <p className="text-[#6B6560] text-[15px] sm:text-[16px] leading-[1.65] mt-4 max-w-[520px]">{siteConfig.texts.heroSubtitle}</p>
 
-          <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
-            <Button size="lg" onClick={onCatalog}>Ver catálogo →</Button>
-            <Button variant="ghost" size="lg" onClick={onAi}><span style={{ width: 18, height: 18, borderRadius: 999, background: "var(--color-secondary)", color: "#fff", display: "grid", placeItems: "center", fontSize: 10 }}>✦</span> Hablar con IA</Button>
-          </div>
-
-          <div style={{ display: "flex", gap: 16, marginTop: 18, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ display: "flex" }}>
-                {[1, 2, 3].map(i => (
-                  <img key={i} src={`https://i.pravatar.cc/100?img=${10 + i}`} alt="" style={{ width: 30, height: 30, borderRadius: 999, border: "2px solid #fff", marginLeft: i === 1 ? 0 : -8 }} />
-                ))}
-              </span>
-              <span style={{ fontSize: 12, fontWeight: 700 }}>+1.2k proyectos<br /><span style={{ fontWeight: 400, color: "var(--color-text-secondary)" }}>asesorados este mes</span></span>
+            <div className="flex gap-3 mt-6 flex-wrap">
+              <Button size="lg" onClick={onCatalog} className="shadow-[0_10px_24px_rgba(158,77,46,0.24)]">Ver catálogo →</Button>
+              <Button variant="ghost" size="lg" onClick={onAi} className="bg-white/80 backdrop-blur">
+                <span className="w-[18px] h-[18px] rounded-full bg-[#1A2E2A] text-white grid place-items-center text-[10px]">✦</span> Hablar con IA
+              </Button>
             </div>
-            <span style={{ width: 1, height: 36, background: "var(--color-border)" }} />
-            <div style={{ fontSize: 12, lineHeight: 1.4 }}>
-              <strong>4.9/5</strong> satisfacción<br /><span style={{ color: "var(--color-text-secondary)" }}>★★★★★ 320 reseñas</span>
-            </div>
-          </div>
-        </div>
 
-        <div style={{ position: "relative" }}>
-          <div style={{ borderRadius: 28, overflow: "hidden", border: "1px solid var(--color-border)", boxShadow: "var(--shadow-medium)", aspectRatio: "4/3.2", background: "#fff" }}>
-            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1000&auto=format&fit=crop" alt="Telas" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </div>
-
-          {/* floating AI card */}
-          <div style={{ position: "absolute", bottom: 14, left: -10, background: "#fff", border: "1px solid var(--color-border)", borderRadius: 18, padding: 12, boxShadow: "var(--shadow-medium)", width: 300, maxWidth: "92%" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 28, height: 28, borderRadius: 999, background: "var(--color-secondary)", color: "#fff", display: "grid", placeItems: "center", fontSize: 12 }}>✦</span>
-              <strong style={{ fontSize: 13 }}>Kotton AI</strong>
-              <span className="badge-dot" style={{ marginLeft: 4 }} />
-              <span style={{ marginLeft: "auto", fontSize: 10, background: "var(--color-muted)", border: "1px solid var(--color-border)", padding: "3px 7px", borderRadius: 999, fontWeight: 800 }}>EN VIVO</span>
-            </div>
-            <div style={{ background: "var(--color-background)", borderRadius: 12, padding: "10px 12px", marginTop: 10, fontSize: 12, lineHeight: 1.5, border: "1px solid var(--color-border)" }}>
-              Para una blusa fresca te recomiendo estas opciones:
-              <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
-                {["https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=200&auto=format&fit=crop"].map(src => (
-                  <img key={src} src={src} alt="" style={{ width: 64, height: 44, borderRadius: 10, objectFit: "cover", border: "1px solid var(--color-border)" }} />
-                ))}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-7 pt-6 border-t border-[#DDD2BB]/70">
+              <div className="flex items-center gap-3">
+                <span className="flex">
+                  {[1, 2, 3].map(i => (
+                    <img key={i} src={`https://i.pravatar.cc/100?img=${10 + i}`} alt="" className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0 object-cover shadow-sm" />
+                  ))}
+                </span>
+                <span className="text-[12px] font-bold leading-tight">+1.2k proyectos<br /><span className="font-normal text-[#6B6560]">asesorados este mes</span></span>
+              </div>
+              <span className="hidden sm:block w-px h-9 bg-[#DDD2BB]" />
+              <div className="text-[12px] leading-tight">
+                <strong className="text-[#1A2E2A]">4.9/5</strong> satisfacción<br /><span className="text-[#6B6560]">★★★★★ 320 reseñas</span>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 ml-auto">
+                <span className="w-2 h-2 rounded-full bg-[#2FEAA1] shadow-[0_0_0_6px_rgba(47,234,161,0.18)] animate-pulse" />
+                <span className="text-[11px] font-bold tracking-wide uppercase text-[#1A2E2A]">Stock verificado hoy</span>
               </div>
             </div>
           </div>
 
-          <div style={{ position: "absolute", top: 14, right: 14, background: "var(--color-primary)", color: "#fff", borderRadius: 999, padding: "8px 12px", fontWeight: 800, fontSize: 12, boxShadow: "var(--shadow-soft)" }}>
-            S/ 32 <span style={{ fontWeight: 400, opacity: .9 }}>/ metro desde</span>
+          <div className="relative lg:pl-4">
+            {/* main image card */}
+            <div className="rounded-[28px] overflow-hidden border border-[#DDD2BB] shadow-[0_18px_40px_rgba(46,42,36,0.13)] bg-white aspect-[4/3.15] relative">
+              <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1000&auto=format&fit=crop" alt="Telas Kotton" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A2E2A]/20 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            {/* floating AI card */}
+            <div className="absolute -bottom-4 sm:bottom-3 -left-1 sm:left-0 bg-[#FFFBF5] border border-[#DDD2BB] rounded-2xl p-3 shadow-[0_16px_36px_rgba(46,42,36,0.14)] w-[300px] max-w-[92%]">
+              <div className="flex items-center gap-2">
+                <span className="w-7 h-7 rounded-full bg-[#1A2E2A] text-white grid place-items-center text-xs">✦</span>
+                <strong className="text-[13px] text-[#1A2E2A]">Kotton AI</strong>
+                <span className="w-2 h-2 rounded-full bg-[#2FEAA1] shadow-[0_0_0_6px_rgba(47,234,161,0.18)] animate-pulse ml-1" />
+                <span className="ml-auto text-[10px] bg-[#EBE0C8] border border-[#DDD2BB] px-2 py-1 rounded-full font-extrabold tracking-wide">EN VIVO</span>
+              </div>
+              <div className="bg-[#F5EFE2] rounded-xl p-2.5 sm:p-3 mt-2.5 text-[12px] leading-[1.5] border border-[#DDD2BB] text-[#2E2A24]">
+                Para una blusa fresca te recomiendo estas opciones:
+                <div className="flex gap-1.5 mt-2">
+                  {["https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=200&auto=format&fit=crop", "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=200&auto=format&fit=crop"].map(src => (
+                    <img key={src} src={src} alt="" className="w-16 h-11 rounded-lg object-cover border border-[#DDD2BB]" />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#9E4D2E] text-white rounded-full px-3.5 py-2 font-extrabold text-xs shadow-[0_8px_20px_rgba(158,77,46,0.25)] flex items-baseline gap-1.5">
+              S/ 32 <span className="font-normal opacity-90 text-[11px]">/ metro desde</span>
+            </div>
+
+            {/* decorative blur */}
+            <div className="absolute -z-10 -top-6 -right-6 w-32 h-32 bg-[#EBE0C8] rounded-full blur-3xl opacity-60 hidden lg:block" />
+            <div className="absolute -z-10 -bottom-8 -left-6 w-40 h-40 bg-[#DDD2BB] rounded-full blur-3xl opacity-40 hidden lg:block" />
           </div>
         </div>
       </div>
-
-      <style>{`@media(max-width:900px){ .hero-grid{grid-template-columns:1fr !important} }`}</style>
     </section>
   );
 }

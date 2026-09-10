@@ -2,67 +2,69 @@ import { siteConfig } from "../config/site";
 
 export function Footer() {
   return (
-    <footer style={{ background: "#1F2E2B", color: "#F5EAD6", paddingTop: 48 }}>
-      <div className="container">
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr .8fr .8fr .9fr", gap: 24 }}>
+    <footer className="bg-[#1A2E2A] text-[#EBE0C8] pt-12">
+      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.95fr] gap-8 lg:gap-10">
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ width: 36, height: 36, borderRadius: 10, background: "var(--color-primary)", display: "grid", placeItems: "center", color: "#fff", fontWeight: 800 }}>KK</span>
-              <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 18 }}>Kotton Kids</span>
+            <div className="flex items-center gap-2.5">
+              <span className="w-9 h-9 rounded-xl bg-[#9E4D2E] grid place-items-center text-white font-extrabold text-xs shadow-md">KK</span>
+              <span className="font-[Fraunces] font-extrabold text-[18px] tracking-tight text-[#FFFBF5]">Kotton Kids</span>
+              <span className="hidden sm:inline-flex text-[10px] leading-none tracking-[0.12em] font-bold bg-white/10 border border-white/15 px-2 py-1 rounded-full text-white/80">GAMARRA · LIMA</span>
             </div>
-            <p style={{ opacity: .8, fontSize: 13, lineHeight: 1.6, marginTop: 12 }}>{siteConfig.texts.footerDescription}</p>
-            <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+            <p className="opacity-75 text-[13px] leading-relaxed mt-3 max-w-[360px]">{siteConfig.texts.footerDescription}</p>
+            <div className="flex gap-2 mt-5">
               {[
                 ["IG", siteConfig.social.instagram],
                 ["Fb", siteConfig.social.facebook],
                 ["Tk", siteConfig.social.tiktok],
                 ["Wa", siteConfig.social.whatsapp],
               ].map(([label, href]) => (
-                <a key={label} href={href as string} target="_blank" rel="noreferrer" style={{ width: 36, height: 36, borderRadius: 999, background: "rgba(255,255,255,.1)", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 800, border: "1px solid rgba(255,255,255,.14)" }}>{label}</a>
+                <a key={label} href={href as string} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full bg-white/10 grid place-items-center text-xs font-extrabold border border-white/15 hover:bg-[#9E4D2E] hover:border-[#9E4D2E] transition-colors">{label}</a>
               ))}
             </div>
           </div>
 
           <div>
-            <div style={{ fontWeight: 800, fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", opacity: .9 }}>Navegación</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12, opacity: .8, fontSize: 13 }}>
-              {siteConfig.navigation.map(n => <a key={n.href} href={n.href}>{n.label}</a>)}
-              <a href="#catalogo">Productos destacados</a>
+            <div className="font-extrabold text-[12px] tracking-[0.08em] uppercase opacity-90 text-[#FFFBF5]">Navegación</div>
+            <div className="flex flex-col gap-2 mt-4 opacity-80 text-[13px]">
+              {siteConfig.navigation.map(n => <a key={n.href} href={n.href} className="hover:text-white hover:opacity-100 transition-colors w-fit">{n.label}</a>)}
+              <a href="#catalogo" className="hover:text-white transition-colors w-fit">Productos destacados</a>
             </div>
           </div>
 
           <div>
-            <div style={{ fontWeight: 800, fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", opacity: .9 }}>Contacto</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12, opacity: .8, fontSize: 13, lineHeight: 1.5 }}>
+            <div className="font-extrabold text-[12px] tracking-[0.08em] uppercase opacity-90 text-[#FFFBF5]">Contacto</div>
+            <div className="flex flex-col gap-2 mt-4 opacity-80 text-[13px] leading-relaxed">
               <span>{siteConfig.contact.address}</span>
-              <a href={`tel:${siteConfig.contact.phone}`}>{siteConfig.contact.phone}</a>
-              <a href={siteConfig.social.whatsapp} target="_blank" rel="noreferrer">{siteConfig.contact.whatsappDisplay} (WhatsApp)</a>
-              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
-              <span>{siteConfig.contact.schedule}</span>
+              <a href={`tel:${siteConfig.contact.phone}`} className="hover:text-white transition-colors">{siteConfig.contact.phone}</a>
+              <a href={siteConfig.social.whatsapp} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">{siteConfig.contact.whatsappDisplay} (WhatsApp)</a>
+              <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white transition-colors">{siteConfig.contact.email}</a>
+              <span className="text-xs opacity-60">{siteConfig.contact.schedule}</span>
             </div>
           </div>
 
           <div>
-            <div style={{ fontWeight: 800, fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", opacity: .9 }}>Boletín textil</div>
-            <p style={{ opacity: .75, fontSize: 13, lineHeight: 1.6, marginTop: 12 }}>Recibe novedades, texturas nuevas y tips de confección.</p>
-            <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-              <input placeholder="Tu correo" style={{ flex: 1, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 999, padding: "10px 14px", color: "#fff", outline: "none" }} />
-              <button style={{ background: "var(--color-primary)", color: "#fff", border: "none", borderRadius: 999, padding: "10px 16px", fontWeight: 800, cursor: "pointer" }}>→</button>
+            <div className="font-extrabold text-[12px] tracking-[0.08em] uppercase opacity-90 text-[#FFFBF5]">Boletín textil</div>
+            <p className="opacity-70 text-[13px] leading-relaxed mt-4">Recibe novedades, texturas nuevas y tips de confección. Sin spam.</p>
+            <div className="flex gap-2 mt-4">
+              <input placeholder="Tu correo" className="flex-1 bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-white placeholder:text-white/50 outline-none text-sm focus:border-[#9E4D2E] focus:bg-white/15 transition-colors" />
+              <button className="bg-[#9E4D2E] text-white border border-[#9E4D2E] rounded-full w-11 h-11 grid place-items-center font-bold cursor-pointer hover:bg-[#864128] transition-colors shrink-0">→</button>
+            </div>
+            <div className="flex items-center gap-2 mt-3 text-[11px] opacity-50">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2FEAA1] inline-block" /> Más de 1.2k suscritos
             </div>
           </div>
         </div>
 
-        <div style={{ borderTop: "1px solid rgba(255,255,255,.12)", marginTop: 28, padding: "16px 0", display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", fontSize: 12, opacity: .7 }}>
-          <span>© {new Date().getFullYear()} Kotton Kids. Todos los derechos reservados.</span>
-          <span style={{ display: "flex", gap: 12 }}>
-            <a href={siteConfig.legal.privacy}>Política de privacidad</a>
+        <div className="border-t border-white/10 mt-8 py-4 flex flex-wrap gap-3 justify-between text-xs opacity-60">
+          <span>© {new Date().getFullYear()} Kotton Kids. Todos los derechos reservados. Hecho con calidez en Gamarra.</span>
+          <span className="flex gap-3">
+            <a href={siteConfig.legal.privacy} className="hover:text-white hover:opacity-100 transition-colors">Política de privacidad</a>
             <span>·</span>
-            <a href={siteConfig.legal.terms}>Términos y condiciones</a>
+            <a href={siteConfig.legal.terms} className="hover:text-white hover:opacity-100 transition-colors">Términos y condiciones</a>
           </span>
         </div>
       </div>
-
-      <style>{`@media(max-width:860px){ footer .container > div:first-child{grid-template-columns:1fr !important} }`}</style>
     </footer>
   );
 }

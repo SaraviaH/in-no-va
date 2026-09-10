@@ -15,7 +15,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div style={{ position: "fixed", bottom: 92, left: "50%", transform: "translateX(-50%)", zIndex: 9999, display: "flex", flexDirection: "column", gap: 8, alignItems: "center" }}>
         {toasts.map(t => (
-          <div key={t.id} style={{ background: "#2B2B2B", color: "#fff", padding: "10px 18px", borderRadius: 999, fontSize: 13, boxShadow: "0 10px 30px rgba(0,0,0,.2)", whiteSpace: "nowrap" }}>
+          <div key={t.id} className="bg-[#1A2E2A] text-white px-5 py-2.5 rounded-full text-[13px] shadow-[0_10px_30px_rgba(0,0,0,0.22)] whitespace-nowrap border border-white/10 font-semibold">
             {t.msg}
           </div>
         ))}

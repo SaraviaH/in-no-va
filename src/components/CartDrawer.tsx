@@ -8,50 +8,50 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
 
   if (!open) return null;
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 55, display: "flex", justifyContent: "flex-end" }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(31,46,43,.45)", backdropFilter: "blur(4px)" }} />
-      <div style={{ position: "relative", width: "min(440px, 100%)", background: "#fff", height: "100%", display: "flex", flexDirection: "column", boxShadow: "var(--shadow-float)", borderLeft: "1px solid var(--color-border)" }}>
-        <div style={{ padding: "16px 18px", borderBottom: "1px solid var(--color-border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <div className="fixed inset-0 z-[55] flex justify-end">
+      <div onClick={onClose} className="absolute inset-0 bg-[#1A2E2A]/40 backdrop-blur-[4px]" />
+      <div className="relative w-[min(440px,100%)] bg-[#FFFBF5] h-full flex flex-col shadow-[0_22px_48px_rgba(26,46,42,0.22)] border-l border-[#DDD2BB] animate-[fadeIn_0.18s_ease]">
+        <div className="px-5 py-4 border-b border-[#DDD2BB] flex items-center justify-between bg-[#FFFBF5]">
           <div>
-            <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 20 }}>Tu cotización</div>
-            <div style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>{count} productos · {totalUnits} unidades</div>
+            <div className="font-[Fraunces] font-extrabold text-xl text-[#1A2E2A]">Tu cotización</div>
+            <div className="text-xs text-[#6B6560]">{count} productos · {totalUnits} unidades</div>
           </div>
-          <button onClick={onClose} style={{ width: 36, height: 36, borderRadius: 999, border: "1px solid var(--color-border)", background: "#fff", cursor: "pointer" }}>✕</button>
+          <button onClick={onClose} className="w-9 h-9 rounded-full border border-[#DDD2BB] bg-white cursor-pointer grid place-items-center hover:bg-[#F5EFE2] transition-colors">✕</button>
         </div>
 
-        <div style={{ flex: 1, overflow: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 12, background: "var(--color-background)" }}>
+        <div className="flex-1 overflow-auto p-4 flex flex-col gap-3 bg-[#F5EFE2]">
           {items.length === 0 ? (
-            <div style={{ background: "#fff", border: "1px solid var(--color-border)", borderRadius: 18, padding: 24, textAlign: "center" }}>
-              <div style={{ width: 56, height: 56, borderRadius: 999, background: "var(--color-muted)", display: "grid", placeItems: "center", margin: "0 auto", fontSize: 22, border: "1px solid var(--color-border)" }}>🧵</div>
-              <div style={{ fontWeight: 800, marginTop: 12 }}>Tu carrito está vacío</div>
-              <div style={{ fontSize: 13, color: "var(--color-text-secondary)", marginTop: 4 }}>Explora el catálogo y añade telas para cotizar por WhatsApp.</div>
-              <Button variant="ghost" style={{ marginTop: 14 }} onClick={onClose}>Ver catálogo</Button>
+            <div className="bg-[#FFFBF5] border border-[#DDD2BB] rounded-[18px] p-8 text-center shadow-sm">
+              <div className="w-14 h-14 rounded-full bg-[#EBE0C8] grid place-items-center mx-auto text-xl border border-[#DDD2BB]">🧵</div>
+              <div className="font-bold mt-4 text-[#1A2E2A]">Tu carrito está vacío</div>
+              <div className="text-[13px] text-[#6B6560] mt-1.5 leading-relaxed">Explora el catálogo y añade telas para cotizar por WhatsApp en un clic.</div>
+              <Button variant="ghost" className="mt-4 bg-white" onClick={onClose}>Ver catálogo</Button>
             </div>
           ) : (
             items.map(it => (
-              <div key={it.product.id} style={{ background: "#fff", border: "1px solid var(--color-border)", borderRadius: 16, padding: 10, display: "flex", gap: 10, alignItems: "center" }}>
-                <img src={it.product.imagenes[0]} alt={it.product.nombre} style={{ width: 64, height: 64, borderRadius: 12, objectFit: "cover", border: "1px solid var(--color-border)" }} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 13, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{it.product.nombre}</div>
-                  <div style={{ fontSize: 11, color: "var(--color-text-secondary)" }}>{it.product.tipo} · S/ {it.product.precioReferencial.toFixed(2)}</div>
-                  <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
+              <div key={it.product.id} className="bg-[#FFFBF5] border border-[#DDD2BB] rounded-2xl p-2.5 flex gap-2.5 items-center shadow-sm hover:border-[#C9B99A] transition-colors">
+                <img src={it.product.imagenes[0]} alt={it.product.nombre} className="w-16 h-16 rounded-xl object-cover border border-[#DDD2BB] shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-[13px] truncate text-[#1A2E2A]">{it.product.nombre}</div>
+                  <div className="text-[11px] text-[#6B6560]">{it.product.tipo} · S/ {it.product.precioReferencial.toFixed(2)}</div>
+                  <div className="mt-2 flex items-center gap-2">
                     <QuantitySelector value={it.quantity} onChange={n => updateQty(it.product.id, n)} size={30} />
-                    <button onClick={() => remove(it.product.id)} style={{ marginLeft: "auto", fontSize: 12, fontWeight: 700, background: "transparent", border: "none", color: "#B65C3D", cursor: "pointer" }}>Eliminar</button>
+                    <button onClick={() => remove(it.product.id)} className="ml-auto text-xs font-bold bg-transparent border-none text-[#9E4D2E] cursor-pointer hover:text-[#864128]">Eliminar</button>
                   </div>
                 </div>
-                <div style={{ fontWeight: 800, fontSize: 13, color: "var(--color-primary)" }}>S/ {(it.product.precioReferencial * it.quantity).toFixed(2)}</div>
+                <div className="font-extrabold text-[13px] text-[#9E4D2E] shrink-0">S/ {(it.product.precioReferencial * it.quantity).toFixed(2)}</div>
               </div>
             ))
           )}
         </div>
 
-        <div style={{ padding: 16, borderTop: "1px solid var(--color-border)", background: "#fff", display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={{ background: "var(--color-surface-alt)", border: "1px solid var(--color-border)", borderRadius: 14, padding: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}><span>Cantidad de productos</span><strong>{count}</strong></div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginTop: 4 }}><span>Total unidades</span><strong>{totalUnits}</strong></div>
-            <div className="divider" style={{ margin: "10px 0" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}><span style={{ fontWeight: 800 }}>Total referencial</span><span style={{ fontWeight: 900, fontSize: 18, color: "var(--color-primary)" }}>S/ {total.toFixed(2)}</span></div>
-            <div style={{ fontSize: 11, color: "var(--color-text-secondary)", marginTop: 6, lineHeight: 1.4 }}>{siteConfig.whatsapp.note}</div>
+        <div className="p-4 border-t border-[#DDD2BB] bg-[#FFFBF5] flex flex-col gap-3">
+          <div className="bg-[#EBE0C8]/50 border border-[#DDD2BB] rounded-xl p-3">
+            <div className="flex justify-between text-[13px] text-[#2E2A24]"><span>Cantidad de productos</span><strong className="text-[#1A2E2A]">{count}</strong></div>
+            <div className="flex justify-between text-[13px] mt-1 text-[#2E2A24]"><span>Total unidades</span><strong className="text-[#1A2E2A]">{totalUnits}</strong></div>
+            <div className="h-px bg-[#DDD2BB] my-2.5" />
+            <div className="flex justify-between items-baseline"><span className="font-extrabold text-[#1A2E2A]">Total referencial</span><span className="font-black text-lg text-[#9E4D2E]">S/ {total.toFixed(2)}</span></div>
+            <div className="text-[11px] text-[#6B6560] mt-1.5 leading-relaxed">{siteConfig.whatsapp.note}</div>
           </div>
 
           <Button
@@ -62,11 +62,11 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
               if (items.length === 0) return;
               window.open(whatsappLink, "_blank");
             }}
-            style={{ opacity: items.length === 0 ? .5 : 1 }}
+            className="w-full disabled:opacity-50"
           >
             Solicitar cotización por WhatsApp ↗
           </Button>
-          <div style={{ fontSize: 11, textAlign: "center", color: "var(--color-text-secondary)" }}>Te llevará a WhatsApp con el mensaje armado automáticamente.</div>
+          <div className="text-[11px] text-center text-[#6B6560]">Te llevará a WhatsApp con el mensaje armado automáticamente.</div>
         </div>
       </div>
     </div>

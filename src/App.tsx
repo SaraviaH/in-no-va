@@ -36,10 +36,10 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-[100dvh] flex flex-col bg-[#F5EFE2] selection:bg-[#EBE0C8] selection:text-[#1A2E2A]">
       <Header cartCount={count} onCartOpen={() => setCartOpen(true)} onAiOpen={() => setAiOpen(true)} />
 
-      <main style={{ flex: 1 }}>
+      <main className="flex-1">
         <Hero onCatalog={() => scrollTo("catalogo")} onAi={() => setAiOpen(true)} />
 
         <CategoriesSection

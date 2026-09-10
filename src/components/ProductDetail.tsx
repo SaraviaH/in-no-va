@@ -21,95 +21,90 @@ export function ProductDetail({
 
   return (
     <div>
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr .9fr", gap: 0 }}>
+      <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-0">
         {/* gallery */}
-        <div style={{ padding: 16, background: "var(--color-background)", borderRight: "1px solid var(--color-border)" }} className="detail-gallery">
-          <div style={{ background: "#fff", borderRadius: 18, overflow: "hidden", border: "1px solid var(--color-border)", aspectRatio: "4/3" }}>
-            <img src={product.imagenes[active]} alt={product.nombre} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div className="p-4 sm:p-5 bg-[#F5EFE2] lg:border-r border-b lg:border-b-0 border-[#DDD2BB]">
+          <div className="bg-white rounded-[18px] overflow-hidden border border-[#DDD2BB] aspect-[4/3] shadow-sm">
+            <img src={product.imagenes[active]} alt={product.nombre} className="w-full h-full object-cover" />
           </div>
           {product.imagenes.length > 1 ? (
-            <div style={{ display: "flex", gap: 8, marginTop: 10, overflowX: "auto" }}>
+            <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
               {product.imagenes.map((img, i) => (
                 <button
                   key={img + i}
                   onClick={() => setActive(i)}
-                  style={{
-                    width: 72, height: 72, borderRadius: 14, overflow: "hidden", border: i === active ? "2px solid var(--color-primary)" : "1px solid var(--color-border)",
-                    padding: 0, cursor: "pointer", flexShrink: 0, opacity: i === active ? 1 : .8,
-                  }}
+                  className={`w-[72px] h-[72px] rounded-xl overflow-hidden border-2 shrink-0 cursor-pointer transition-all ${i === active ? "border-[#9E4D2E] opacity-100 shadow-sm" : "border-[#DDD2BB] opacity-80 hover:opacity-100"}`}
                 >
-                  <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={img} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
           ) : (
-            <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginTop: 8, textAlign: "center" }}>Imagen única · vista principal</div>
+            <div className="text-xs text-[#6B6560] mt-2.5 text-center">Imagen única · vista principal</div>
           )}
         </div>
 
         {/* info */}
-        <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 14 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+        <div className="p-5 sm:p-6 flex flex-col gap-4">
+          <div className="flex justify-between items-start gap-3">
             <div>
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+              <div className="flex gap-2 items-center flex-wrap">
                 <Badge tone={tone as never}>{product.disponibilidad}</Badge>
-                <span style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", fontWeight: 800, color: "var(--color-text-secondary)" }}>{product.categoria} · {product.tipo}</span>
+                <span className="text-[11px] tracking-[0.08em] uppercase font-extrabold text-[#6B6560]">{product.categoria} · {product.tipo}</span>
               </div>
-              <div style={{ fontFamily: "var(--font-heading)", fontSize: 26, fontWeight: 800, lineHeight: 1.1, marginTop: 8 }}>{product.nombre}</div>
-              <div style={{ color: "var(--color-text-secondary)", fontSize: 13, marginTop: 6 }}>{product.descripcion}</div>
+              <div className="font-[Fraunces] text-[26px] font-extrabold leading-[1.05] mt-2 text-[#1A2E2A]">{product.nombre}</div>
+              <div className="text-[#6B6560] text-[13px] mt-2 leading-relaxed">{product.descripcion}</div>
             </div>
-            <button onClick={onClose} style={{ width: 36, height: 36, borderRadius: 999, border: "1px solid var(--color-border)", background: "#fff", cursor: "pointer" }}>✕</button>
+            <button onClick={onClose} className="w-9 h-9 rounded-full border border-[#DDD2BB] bg-white cursor-pointer grid place-items-center hover:bg-[#F5EFE2] transition-colors shrink-0">✕</button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div className="grid grid-cols-2 gap-2.5">
             {[
               ["Material", product.material],
               ["Color", product.color],
               ["Tipo", product.tipo],
               ["Precio", `S/ ${product.precioReferencial.toFixed(2)} / metro`],
             ].map(([k, v]) => (
-              <div key={k} style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", borderRadius: 14, padding: "10px 12px" }}>
-                <div style={{ fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", fontWeight: 800, color: "var(--color-text-secondary)" }}>{k}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, marginTop: 2 }}>{v}</div>
+              <div key={k} className="bg-[#F5EFE2] border border-[#DDD2BB] rounded-xl px-3 py-2.5">
+                <div className="text-[10px] tracking-[0.08em] uppercase font-extrabold text-[#6B6560]">{k}</div>
+                <div className="text-[13px] font-bold mt-1 text-[#1A2E2A] leading-tight">{v}</div>
               </div>
             ))}
           </div>
 
           <div>
-            <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" }}>Características</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+            <div className="text-xs font-extrabold tracking-[0.06em] uppercase text-[#1A2E2A]">Características</div>
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {product.caracteristicas.map(c => (
-                <span key={c} style={{ background: "#fff", border: "1px solid var(--color-border)", borderRadius: 999, padding: "6px 10px", fontSize: 12, fontWeight: 600 }}>{c}</span>
+                <span key={c} className="bg-white border border-[#DDD2BB] rounded-full px-3 py-1.5 text-xs font-semibold text-[#2E2A24]">{c}</span>
               ))}
             </div>
           </div>
 
           <div>
-            <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" }}>Usos recomendados</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+            <div className="text-xs font-extrabold tracking-[0.06em] uppercase text-[#1A2E2A]">Usos recomendados</div>
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {product.usos.map(u => (
-                <span key={u} style={{ background: "var(--color-secondary)", color: "#fff", borderRadius: 999, padding: "6px 10px", fontSize: 12, fontWeight: 700 }}>{u}</span>
+                <span key={u} className="bg-[#1A2E2A] text-white rounded-full px-3 py-1.5 text-xs font-bold">{u}</span>
               ))}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 12, background: "var(--color-surface-alt)", border: "1px solid var(--color-border)", borderRadius: 16, padding: 12 }}>
+          <div className="flex items-center gap-3 bg-[#EBE0C8]/60 border border-[#DDD2BB] rounded-2xl p-3">
             <QuantitySelector value={qty} onChange={setQty} />
-            <div style={{ marginLeft: "auto", textAlign: "right" }}>
-              <div style={{ fontSize: 11, color: "var(--color-text-secondary)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em" }}>Subtotal</div>
-              <div style={{ fontWeight: 800, fontSize: 18, color: "var(--color-primary)" }}>S/ {(product.precioReferencial * qty).toFixed(2)}</div>
+            <div className="ml-auto text-right">
+              <div className="text-[11px] text-[#6B6560] font-bold uppercase tracking-[0.06em]">Subtotal</div>
+              <div className="font-extrabold text-lg text-[#9E4D2E]">S/ {(product.precioReferencial * qty).toFixed(2)}</div>
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 8 }}>
-            <Button variant="primary" style={{ flex: 1 }} onClick={() => onAdd(qty)}>Añadir al carrito</Button>
-            <Button variant="secondary" style={{ flex: 1 }} onClick={onAskIA}>Consultar con IA ✦</Button>
+          <div className="flex gap-2.5">
+            <Button variant="primary" className="flex-1" onClick={() => onAdd(qty)}>Añadir al carrito</Button>
+            <Button variant="secondary" className="flex-1" onClick={onAskIA}>Consultar con IA ✦</Button>
           </div>
-          <div style={{ fontSize: 11, color: "var(--color-text-secondary)", textAlign: "center" }}>Precio referencial · Cotización final por WhatsApp</div>
+          <div className="text-[11px] text-[#6B6560] text-center">Precio referencial · Cotización final por WhatsApp</div>
         </div>
       </div>
-
-      <style>{`@media(max-width:860px){ .detail-gallery{border-right:none !important; border-bottom:1px solid var(--color-border)} div[style*="grid-template-columns: 1.1fr .9fr"]{grid-template-columns:1fr !important} }`}</style>
     </div>
   );
 }
