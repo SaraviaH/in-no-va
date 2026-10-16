@@ -13,7 +13,7 @@ export function ProductDetail({
 }: {
   product: Product;
   onAdd: (qty: number) => void;
-  onAskIA: () => void;
+  onAskIA: (product: Product) => void;
   onClose: () => void;
 }) {
   const [active, setActive] = useState(0);
@@ -60,22 +60,31 @@ export function ProductDetail({
             <button onClick={onClose} className="w-9 h-9 rounded-full border border-[#DDD2BB] bg-white cursor-pointer grid place-items-center hover:bg-[#F5EFE2] transition-colors shrink-0">✕</button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {[
-              ["Material", product.material],
+              ["Composición", product.material],
+              ["Estructura", product.tipoTejido || product.tipo],
+              ["Gramaje", product.gramaje || "Por confirmar*"],
+              ["Elasticidad", product.elasticidad || "Por confirmar*"],
               ["Color", product.color],
-              ["Tipo", product.tipo],
-              ["Precio", `S/ ${product.precioReferencial.toFixed(2)} / metro`],
+              ["Precio ref.", `S/ ${product.precioReferencial.toFixed(2)} / m`],
             ].map(([k, v]) => (
-              <div key={k} className="bg-[#F5EFE2] border border-[#DDD2BB] rounded-xl px-3 py-2.5">
-                <div className="text-[10px] tracking-[0.08em] uppercase font-extrabold text-[#6B6560]">{k}</div>
-                <div className="text-[13px] font-bold mt-1 text-[#1A2E2A] leading-tight">{v}</div>
+              <div key={k} className="bg-[#F5EFE2] border border-[#DDD2BB] rounded-xl px-2.5 py-2">
+                <div className="text-[10px] tracking-[0.06em] uppercase font-extrabold text-[#6B6560]">{k}</div>
+                <div className="text-[12px] font-bold mt-0.5 text-[#1A2E2A] leading-tight truncate" title={v}>{v}</div>
               </div>
             ))}
           </div>
 
+          {product.confirmacionPendiente && (
+            <div className="text-[11px] text-[#8A6A1A] bg-[#C69A2E]/10 border border-[#C69A2E]/25 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
+              <span>ℹ</span>
+              <span>Especificaciones estándar de partida · Sujeto a confirmación final de lote por Kotton Kids.</span>
+            </div>
+          )}
+
           <div>
-            <div className="text-xs font-extrabold tracking-[0.06em] uppercase text-[#1A2E2A]">Características</div>
+            <div className="text-xs font-extrabold tracking-[0.06em] uppercase text-[#1A2E2A]">Características físicas</div>
             <div className="flex flex-wrap gap-1.5 mt-2">
               {product.caracteristicas.map(c => (
                 <span key={c} className="bg-white border border-[#DDD2BB] rounded-full px-3 py-1.5 text-xs font-semibold text-[#2E2A24]">{c}</span>
@@ -101,8 +110,8 @@ export function ProductDetail({
           </div>
 
           <div className="flex gap-2.5">
-            <Button variant="primary" className="flex-1" onClick={() => onAdd(qty)}>Añadir al carrito</Button>
-            <Button variant="secondary" className="flex-1" onClick={onAskIA}>Consultar con IA ✦</Button>
+            <Button variant="primary" className="flex-1" onClick={() => onAdd(qty)}>Añadir a cotización</Button>
+            <Button variant="secondary" className="flex-1" onClick={() => onAskIA(product)}>Consultar con IA ✦</Button>
           </div>
           <div className="text-[11px] text-[#6B6560] text-center">Precio referencial · Cotización final por WhatsApp</div>
         </div>

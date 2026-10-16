@@ -6,9 +6,9 @@ export const siteConfig = {
   },
   contact: {
     address: "Av. Gamarra 123, La Victoria, Lima — Perú",
-    phone: "+51 999 888 777",
-    whatsapp: "51999888777", // solo números, para wa.me
-    whatsappDisplay: "+51 999 888 777",
+    phone: "+51 977 329 720",
+    whatsapp: "51977329720", // solo números, para wa.me (Perú +51)
+    whatsappDisplay: "+51 977 329 720",
     email: "hola@kottonkids.pe",
     schedule: "Lun - Sáb: 9:00 - 19:00 | Dom: 10:00 - 16:00",
     mapsUrl: "https://maps.google.com/?q=Gamarra+Lima",
@@ -17,7 +17,7 @@ export const siteConfig = {
     instagram: "https://instagram.com/kottonkids",
     facebook: "https://facebook.com/kottonkids",
     tiktok: "https://tiktok.com/@kottonkids",
-    whatsapp: "https://wa.me/51999888777",
+    whatsapp: "https://wa.me/51977329720",
   },
   navigation: [
     { label: "Inicio", href: "#inicio" },

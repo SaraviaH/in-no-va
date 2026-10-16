@@ -27,6 +27,7 @@ export default function App() {
   const [selected, setSelected] = useState<Product | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [aiQuery, setAiQuery] = useState<string | null>(null);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
@@ -74,6 +75,8 @@ export default function App() {
         onToggle={() => setAiOpen(v => !v)}
         onViewProduct={p => setSelected(p)}
         onAddToCart={p => handleAdd(p, 1)}
+        initialQuery={aiQuery}
+        onClearInitialQuery={() => setAiQuery(null)}
       />
 
       <Modal open={!!selected} onClose={() => setSelected(null)}>
@@ -86,8 +89,9 @@ export default function App() {
               setSelected(null);
               setCartOpen(true);
             }}
-            onAskIA={() => {
+            onAskIA={prod => {
               setSelected(null);
+              setAiQuery(`Cuéntame sobre la tela ${prod.nombre} y para qué prendas se recomienda`);
               setAiOpen(true);
             }}
           />

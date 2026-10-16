@@ -10,42 +10,77 @@ export function AiBubble({
   onToggle,
   onViewProduct,
   onAddToCart,
+  initialQuery,
+  onClearInitialQuery,
 }: {
   open: boolean;
   onToggle: () => void;
   onViewProduct: (p: Product) => void;
   onAddToCart: (p: Product) => void;
+  initialQuery?: string | null;
+  onClearInitialQuery?: () => void;
 }) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: "m1", role: "assistant", text: "¡Hola! Soy Kotton AI. ¿Qué tipo de tela estás buscando hoy? Cuéntame tu proyecto y te ayudo a elegir.", timestamp: Date.now() },
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
+      id: "m1",
+      role: "assistant",
+      text: "¡Hola! Soy Kotton AI. ¿Qué prenda o tela buscas confeccionar hoy? Cuéntame tu proyecto y te ayudo a evaluar opciones según su tejido y características.",
+      timestamp: Date.now(),
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const send = async (text: string) => {
+    const cleanText = text.trim().slice(0, 250);
+    if (!cleanText) return;
+
+    const userMsg: ChatMessage = {
+      id: Math.random().toString(36).slice(2),
+      role: "user",
+      text: cleanText,
+      timestamp: Date.now(),
+    };
+    setMessages(m => [...m, userMsg]);
+    setInput("");
+    setLoading(true);
+
+    const result = await api.queryAssistant(cleanText);
+    const botMsg: ChatMessage = {
+      id: Math.random().toString(36).slice(2),
+      role: "assistant",
+      text: result.text,
+      products: result.products,
+      detectedIntent: result.detectedIntent,
+      matchedAttributes: result.matchedAttributes,
+      timestamp: Date.now(),
+    };
+    setMessages(m => [...m, botMsg]);
+    setLoading(false);
+  };
+
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  const suggestions = ["Quiero una tela fresca", "Necesito tela para un vestido", "Ayúdame a elegir", "Ver telas recomendadas"];
+  // Manejo de consulta contextual cuando el usuario pulsa "Consultar con IA ✦" desde la ficha de un producto
+  useEffect(() => {
+    if (initialQuery && open) {
+      const timer = setTimeout(() => {
+        send(initialQuery);
+        onClearInitialQuery?.();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [initialQuery, open, onClearInitialQuery]);
 
-  const send = async (text: string) => {
-    if (!text.trim()) return;
-    const userMsg: ChatMessage = { id: Math.random().toString(36).slice(2), role: "user", text, timestamp: Date.now() };
-    setMessages(m => [...m, userMsg]);
-    setInput("");
-    setLoading(true);
-    const products = await api.getRecommendations(text);
-    const assistantText =
-      text.toLowerCase().includes("fresca")
-        ? "Para una prenda fresca te recomiendo estas opciones livianas y transpirables:"
-        : text.toLowerCase().includes("vestido")
-          ? "Para vestido te sugiero telas con buena caída y textura elegante:"
-          : "Estas opciones combinan muy bien con lo que buscas:";
-    const botMsg: ChatMessage = { id: Math.random().toString(36).slice(2), role: "assistant", text: assistantText, products, timestamp: Date.now() };
-    setMessages(m => [...m, botMsg]);
-    setLoading(false);
-  };
+  const suggestions = [
+    "Enterizo recién nacido",
+    "Tela que estire para buzo",
+    "Tela fresca de verano",
+    "Pijamería",
+  ];
 
   return (
     <>
@@ -72,18 +107,32 @@ export function AiBubble({
           <div ref={listRef} className="flex-1 overflow-auto p-3 flex flex-col gap-2.5 bg-[#F5EFE2]">
             {messages.map(m => (
               <div key={m.id} className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}>
-                <div className={`max-w-[82%] px-3 py-2.5 text-[13px] leading-relaxed shadow-sm border ${m.role === "user" ? "bg-[#9E4D2E] text-white border-[#9E4D2E] rounded-[18px_18px_4px_18px]" : "bg-white text-[#1A2E2A] border-[#DDD2BB] rounded-[18px_18px_18px_4px]"}`}>
-                  {m.text}
+                <div className={`max-w-[85%] px-3 py-2.5 text-[13px] leading-relaxed shadow-sm border ${m.role === "user" ? "bg-[#9E4D2E] text-white border-[#9E4D2E] rounded-[18px_18px_4px_18px]" : "bg-white text-[#1A2E2A] border-[#DDD2BB] rounded-[18px_18px_18px_4px]"}`}>
+                  {m.detectedIntent && m.detectedIntent !== "Consulta no clasificada" && (
+                    <div className="text-[10px] tracking-wider uppercase font-extrabold text-[#9E4D2E] mb-1 flex items-center gap-1">
+                      <span>✦ {m.detectedIntent}</span>
+                    </div>
+                  )}
+                  <div>{m.text}</div>
+                  {m.matchedAttributes && m.matchedAttributes.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-1.5 pt-1.5 border-t border-[#DDD2BB]/60">
+                      {m.matchedAttributes.map(att => (
+                        <span key={att} className="text-[10px] bg-[#F5EFE2] text-[#6B6560] px-1.5 py-0.5 rounded-md font-semibold">
+                          {att}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                {m.products && (
+                {m.products && m.products.length > 0 && (
                   <div className="flex flex-col gap-2 mt-2 w-full">
                     {m.products.map(p => (
                       <div key={p.id} className="bg-white border border-[#DDD2BB] rounded-xl p-2 flex gap-2 items-center shadow-sm">
                         <img src={resolveImage(p.imagenes[0])} alt={p.nombre} onError={onImageError} className="w-[52px] h-[52px] rounded-lg object-cover border border-[#DDD2BB] shrink-0 bg-white" />
                         <div className="flex-1 min-w-0">
                           <div className="font-extrabold text-xs truncate text-[#1A2E2A]">{p.nombre}</div>
-                          <div className="text-[11px] text-[#6B6560]">{p.tipo} · S/ {p.precioReferencial.toFixed(2)}</div>
+                          <div className="text-[11px] text-[#6B6560] truncate">{p.tipoTejido || p.tipo}{p.gramaje ? ` · ${p.gramaje}` : ""} · S/ {p.precioReferencial.toFixed(2)}</div>
                         </div>
                         <div className="flex flex-col gap-1">
                           <button onClick={() => onViewProduct(p)} className="text-[11px] font-extrabold bg-white border border-[#DDD2BB] rounded-full px-2.5 py-1 cursor-pointer hover:bg-[#F5EFE2] transition-colors text-[#1A2E2A]">Ver</button>
@@ -97,7 +146,7 @@ export function AiBubble({
             ))}
             {loading && (
               <div className="bg-white border border-[#DDD2BB] rounded-[18px_18px_18px_4px] px-3 py-2.5 text-[13px] w-fit shadow-sm flex items-center gap-1.5">
-                <span className="inline-flex gap-1"><span className="animate-[pulseDot_1s_infinite]">●</span><span className="animate-[pulseDot_1s_0.2s_infinite]">●</span><span className="animate-[pulseDot_1s_0.4s_infinite]">●</span></span> Kotton AI está pensando...
+                <span className="inline-flex gap-1"><span className="animate-[pulseDot_1s_infinite]">●</span><span className="animate-[pulseDot_1s_0.2s_infinite]">●</span><span className="animate-[pulseDot_1s_0.4s_infinite]">●</span></span> Kotton AI está evaluando opciones...
               </div>
             )}
           </div>
@@ -117,6 +166,7 @@ export function AiBubble({
           <div className="p-2.5 flex gap-2 border-t border-[#DDD2BB] bg-[#FFFBF5]">
             <input
               value={input}
+              maxLength={250}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && send(input)}
               placeholder="Escribe lo que necesitas..."
