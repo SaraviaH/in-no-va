@@ -1,33 +1,34 @@
 export const theme = {
   colors: {
-    primary: "#9E4D2E", // terracota opaco profesional, menos brillante
-    primaryHover: "#864128",
-    secondary: "#1A2E2A", // forest profundo, sofisticado
-    accent: "#C69A2E", // ámbar refinado
-    background: "#F5EFE2", // crema opaco cálido, menos brillante
-    surface: "#FFFBF5", // papel cálido
-    surfaceAlt: "#EDE3CC", // arena opaca
-    text: "#2E2A24", // tinta cálida (menos negro puro)
-    textSecondary: "#6B6560",
-    border: "#DDD2BB",
-    muted: "#EBE0C8",
-    teal: "#23433E",
-    sage: "#7A9B7D",
-    success: "#2E6B4F",
-    warning: "#8A6A1A",
+    primary: "#8E3E27", // Arcilla mineral mate y profunda
+    primaryHover: "#74311E", // Arcilla tostada en estado activo/hover
+    secondary: "#1C332D", // Ciprés botánico de atelier
+    accent: "#9A7228", // Ocre dorado sobrio para avisos técnicos
+    background: "#FAF8F5", // Lienzo marfil luminoso
+    surface: "#FFFFFF", // Blanco puro para fidelidad cromática de muestras
+    surfaceAlt: "#F3EFEA", // Piedra textil suave para secciones alternas
+    text: "#171614", // Carbón textil de alto contraste (WCAG AAA)
+    textSecondary: "#5C5852", // Gris hilado para metadatos y especificaciones
+    border: "#E6E0D6", // Borde hilado de 1px
+    borderStrong: "#D1C9BC", // Borde acentuado en interacción
+    muted: "#EAE4DC", // Arena hilada para chips y fondos secundarios
+    teal: "#24423B",
+    sage: "#5E7D63",
+    success: "#23533D",
+    warning: "#7D5B14",
   },
   radius: {
-    xs: "10px",
-    sm: "14px",
-    md: "18px",
-    lg: "24px",
-    xl: "32px",
+    xs: "6px",
+    sm: "8px",
+    md: "12px",
+    lg: "16px",
+    xl: "20px",
     pill: "999px",
   },
   shadows: {
-    soft: "0 8px 28px rgba(46,42,36,0.08)",
-    medium: "0 14px 36px rgba(46,42,36,0.13)",
-    floating: "0 22px 48px rgba(26,46,42,0.18)",
+    soft: "0 2px 12px rgba(23, 22, 20, 0.04)",
+    medium: "0 8px 24px rgba(23, 22, 20, 0.07)",
+    floating: "0 20px 44px rgba(23, 22, 20, 0.14)",
   },
   spacing: {
     xs: "4px",
@@ -38,8 +39,8 @@ export const theme = {
     xxl: "64px",
   },
   fonts: {
-    heading: "'Fraunces', 'Georgia', serif",
-    body: "'Inter', 'DM Sans', system-ui, sans-serif",
-    accent: "'Instrument Serif', Georgia, serif",
+    heading: "'Fraunces', Georgia, serif",
+    body: "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif",
+    accent: "'Fraunces', Georgia, serif",
   },
 } as const;

@@ -39,6 +39,51 @@ export interface CartItem {
   quantity: number;
 }
 
+export type StoreSectionId =
+  | "inicio"
+  | "categorias"
+  | "catalogo"
+  | "asesor-ia"
+  | "como-funciona"
+  | "nosotros"
+  | "beneficios"
+  | "contacto";
+
+export type CatalogFilterId = "Todos" | ProductCategoryId;
+
+export type AssistantAction =
+  | { type: "navigateTo"; section: StoreSectionId; label: string }
+  | { type: "scrollToSection"; sectionId: StoreSectionId; label: string }
+  | { type: "filterProducts"; category: CatalogFilterId; label: string }
+  | { type: "searchProducts"; query: string; label: string }
+  | { type: "openProduct"; productId: string; label: string }
+  | { type: "closeProduct"; label: string }
+  | { type: "openCart"; label: string }
+  | { type: "closeCart"; label: string }
+  | {
+      type: "addToCart";
+      productId: string;
+      quantity: number;
+      label: string;
+      requiresConfirmation?: boolean;
+    }
+  | {
+      type: "clearCart";
+      label: string;
+      requiresConfirmation: true;
+    };
+
+export interface AssistantNavigationContext {
+  currentSection: StoreSectionId;
+  selectedCategory: string;
+  searchQuery: string;
+  activeProduct: Product | null;
+  cartCount: number;
+  cartTotalUnits: number;
+  cartTotalPrice: number;
+  cartOpen: boolean;
+}
+
 export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
@@ -47,4 +92,7 @@ export interface ChatMessage {
   timestamp: number;
   detectedIntent?: string; // e.g. "Línea Bebé", "Prenda Fresca / Verano"
   matchedAttributes?: string[]; // e.g. ["100% Algodón", "Gramaje liviano"]
+  actions?: AssistantAction[];
+  pendingConfirmationAction?: AssistantAction;
+  fromVoice?: boolean;
 }

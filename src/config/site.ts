@@ -1,8 +1,9 @@
 export const siteConfig = {
   brand: {
-    name: "Kotton Kids",
-    tagline: "Textil · Cálido · Creativo",
-    logoText: "KOTTON KIDS",
+    name: "Kotton",
+    legalName: "Kotton Kids",
+    tagline: "Estudio Textil & Tienda de Telas",
+    logoText: "KOTTON",
   },
   contact: {
     address: "Av. Gamarra 123, La Victoria, Lima — Perú",
@@ -22,34 +23,34 @@ export const siteConfig = {
   navigation: [
     { label: "Inicio", href: "#inicio" },
     { label: "Catálogo", href: "#catalogo" },
-    { label: "Categorías", href: "#categorias" },
-    { label: "Nosotros", href: "#nosotros" },
-    { label: "¿Cómo funciona?", href: "#como-funciona" },
+    { label: "Fibras", href: "#categorias" },
+    { label: "Atelier", href: "#nosotros" },
+    { label: "Proceso", href: "#como-funciona" },
     { label: "Contacto", href: "#contacto" },
   ],
   texts: {
-    heroTitle: "Encuentra la tela adecuada para tu proyecto",
+    heroTitle: "Tejidos nobles con especificación técnica para confección",
     heroSubtitle:
-      "Explora nuestro catálogo o conversa con nuestro asistente inteligente para encontrar una tela según lo que necesitas.",
-    aiSectionTitle: "¿No sabes qué tela elegir?",
+      "Algodón Pima peruano, linos europeos, sargas orgánicas y puntos de alta recuperación. Explora el muestrario por gramaje y ligamento o consulta con nuestro asesor textil.",
+    aiSectionTitle: "Asesoría técnica según la prenda que vas a confeccionar",
     aiSectionSubtitle:
-      "Cuéntanos qué quieres confeccionar y nuestro asistente te ayudará a encontrar opciones.",
-    howItWorksTitle: "Cómo funciona",
-    aboutTitle: "Tejemos ideas, vestimos historias",
+      "Indica el tipo de prenda, caída deseada o exigencia de uso. Nuestro motor cruza tu requerimiento con el gramaje, ligamento y elasticidad real de cada partida.",
+    howItWorksTitle: "Del requerimiento técnico al metraje en taller",
+    aboutTitle: "Curaduría textil con rigor de taller en Gamarra",
     aboutText:
-      "En Kotton Kids seleccionamos telas con alma textil y mirada contemporánea. Desde algodones suaves hasta linos naturales y mezclas innovadoras, cada rollo cuenta una historia de color, textura y posibilidad. Creemos en la calidez del hacer manual potenciado por la inteligencia de hoy.",
-    benefitsTitle: "Por qué elegir Kotton Kids",
+      "En KOTTON seleccionamos partidas textiles verificando título de hilo, estabilidad dimensional, solidez al lavado y suavidad al tacto. Desde algodón Pima para línea de bebé hasta linos lavados a la piedra y sargas pesadas, abastecemos a marcas independientes, talleres y diseñadores con información transparente por metro lineal.",
+    benefitsTitle: "Estándares de nuestro estudio textil",
     footerDescription:
-      "Telas seleccionadas con calidez textil y precisión contemporánea. Tu proyecto, nuestra inspiración.",
+      "Muestrario textil curado en Gamarra, Lima. Venta por metro lineal y despacho a talleres en todo el Perú.",
   },
   legal: {
     privacy: "#",
     terms: "#",
   },
   whatsapp: {
-    quotationIntro: "Hola, Kotton Kids. Quiero solicitar una cotización de los siguientes productos:",
-    quotationOutro: "Quisiera conocer la disponibilidad y cotización final de estos productos.",
-    note: "Los precios mostrados son referenciales. La cotización final será confirmada por Kotton Kids.",
+    quotationIntro: "Hola, Kotton. Quiero solicitar una cotización de las siguientes telas:",
+    quotationOutro: "Quisiera confirmar disponibilidad de partida y cotización final por metraje.",
+    note: "Los precios por metro lineal son referenciales. La cotización final y disponibilidad de lote son confirmadas directamente por nuestro equipo en Gamarra.",
   },
 } as const;
 

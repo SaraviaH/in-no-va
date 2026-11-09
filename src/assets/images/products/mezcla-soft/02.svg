@@ -1,35 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img">
-  <title>Mezcla Soft</title>
-  <rect width="800" height="600" rx="28" fill="#FFFBF5"/>
-  <defs>
-    <pattern id="p" width="40" height="40" patternUnits="userSpaceOnUse">
-      <rect width="40" height="40" fill="#FFFBF5"/>
-      <path d="M0 10 H40 M0 30 H40" stroke="#C76B4A" stroke-opacity="0.08" stroke-width="1"/>
-      <path d="M10 0 V40 M30 0 V40" stroke="#1A2E2A" stroke-opacity="0.06" stroke-width="1"/>
-    </pattern>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#C76B4A" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#1A2E2A" stop-opacity="0.04"/>
-    </linearGradient>
-  </defs>
-  <rect width="800" height="600" rx="28" fill="url(#p)"/>
-  <rect width="800" height="600" rx="28" fill="url(#g)"/>
-  <path d="M0 420 Q 200 380 400 420 T 800 420 L 800 600 L 0 600 Z" fill="#1A2E2A" opacity="0.06"/>
-  <circle cx="70" cy="70" r="34" fill="#C76B4A" opacity="0.95"/>
-  <text x="70" y="76" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="800" fill="white">X</text>
-  <g transform="translate(400,300)">
-    <text text-anchor="middle" font-family="Georgia, serif" font-size="42" font-weight="800" fill="#1A2E2A">Mezcla Soft</text>
-    <text y="44" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#1A2E2A" opacity="0.65">ELASTICIDAD - 02</text>
-    <g transform="translate(0,76)">
-      <rect x="-78" y="-14" width="156" height="28" rx="14" fill="white" stroke="#C76B4A" stroke-opacity="0.15"/>
-      <text text-anchor="middle" y="5" font-family="sans-serif" font-size="11" font-weight="800" fill="#C76B4A">KOTTON KIDS</text>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Diagrama de recuperación elástica Mezcla Soft Terracota">
+  <rect width="800" height="1000" fill="#FAF8F5"/>
+  <rect x="48" y="48" width="704" height="680" rx="8" fill="#F9ECE8" stroke="#E6C5BA" stroke-width="1.5"/>
+  <g transform="translate(120, 180)" stroke="#8E3E27" stroke-width="2.5" fill="none">
+    <path d="M0 80 Q 70 10, 140 80 T 280 80 T 420 80 T 560 80"/>
+    <path d="M0 180 Q 70 110, 140 180 T 280 180 T 420 180 T 560 180" stroke-opacity="0.6"/>
+    <path d="M0 280 Q 70 210, 140 280 T 280 280 T 420 280 T 560 280" stroke-opacity="0.35"/>
   </g>
-  <g transform="translate(24, 544)">
-    <rect width="220" height="52" rx="16" fill="white" stroke="#DDD2BB"/>
-    <circle cx="26" cy="26" r="14" fill="#FFFBF5" stroke="#DDD2BB"/>
-    <text x="26" y="31" text-anchor="middle" font-size="12">S</text>
-    <text x="48" y="20" font-family="sans-serif" font-size="11" font-weight="800" fill="#1A2E2A">100% LOCAL</text>
-    <text x="48" y="34" font-family="sans-serif" font-size="10" fill="#1A2E2A" opacity="0.6">Placeholder calido</text>
+  <g transform="translate(48, 760)">
+    <rect width="704" height="192" rx="8" fill="#FFFFFF" stroke="#D1C9BC" stroke-width="1.5"/>
+    <line x1="0" y1="54" x2="704" y2="54" stroke="#E6E0D6" stroke-width="1"/>
+    <text x="28" y="34" font-family="Plus Jakarta Sans, Inter, sans-serif" font-size="12" font-weight="700" fill="#8E3E27" letter-spacing="1.5">COMPORTAMIENTO ELÁSTICO · VISTA 02/02</text>
+    <text x="28" y="102" font-family="Georgia, serif" font-size="28" font-weight="600" fill="#171614">Punto con Fibra Modal y 5% Elastano</text>
+    <text x="28" y="134" font-family="Plus Jakarta Sans, Inter, sans-serif" font-size="14" font-weight="500" fill="#5C5852">Recuperación dimensional inmediata · Tacto frío y caída pesada sin arrugas</text>
+    <text x="28" y="168" font-family="Plus Jakarta Sans, Inter, sans-serif" font-size="11" font-weight="600" fill="#5C5852" letter-spacing="0.8">IDEAL PARA JOGGERS, CONJUNTOS DEPORTIVOS Y PRENDAS LOUNGEWEAR</text>
   </g>
 </svg>

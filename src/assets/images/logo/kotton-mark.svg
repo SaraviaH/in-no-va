@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img"><rect width="200" height="200" rx="32" fill="#9E4D2E"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="64" font-weight="900" fill="white">KK</text><text x="100" y="144" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="800" fill="white" opacity="0.85">KOTTON KIDS</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Kotton Mark">
+  <rect width="120" height="120" rx="20" fill="#8E3E27"/>
+  <path d="M36 28v64M52 28v64" stroke="#FAF8F5" stroke-width="5.5" stroke-linecap="square"/>
+  <path d="M52 60 84 30M52 60l32 30" stroke="#FAF8F5" stroke-width="6" stroke-linecap="square"/>
+</svg>

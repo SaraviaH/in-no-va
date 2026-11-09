@@ -1,107 +1,237 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,500;9..144,0,700;9..144,1,600&family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root{
-  --color-kotton-cream: #F5EFE2;
-  --color-kotton-cream-deep: #EBE0C8;
-  --color-kotton-paper: #FFFBF5;
-  --color-kotton-stone: #DDD2BB;
-  --color-kotton-stone-dark: #C9B99A;
-  --color-kotton-clay: #9E4D2E;
-  --color-kotton-clay-hover: #864128;
-  --color-kotton-forest: #1A2E2A;
-  --color-kotton-forest-light: #23433E;
-  --color-kotton-ink: #2E2A24;
-  --color-kotton-ink-muted: #6B6560;
-  --color-kotton-amber: #C69A2E;
-  --color-kotton-sage: #7A9B7D;
+:root {
+  /* Paleta Atelier & Materia */
+  --color-kotton-cream: #FAF8F5;
+  --color-kotton-cream-deep: #F3EFEA;
+  --color-kotton-paper: #FFFFFF;
+  --color-kotton-stone: #E6E0D6;
+  --color-kotton-stone-dark: #D1C9BC;
+  --color-kotton-clay: #8E3E27;
+  --color-kotton-clay-hover: #74311E;
+  --color-kotton-forest: #1C332D;
+  --color-kotton-forest-light: #24423B;
+  --color-kotton-ink: #171614;
+  --color-kotton-ink-muted: #5C5852;
+  --color-kotton-amber: #9A7228;
+  --color-kotton-sage: #5E7D63;
 
-  --color-primary:#9E4D2E;
-  --color-primary-hover:#864128;
-  --color-secondary:#1A2E2A;
-  --color-accent:#C69A2E;
-  --color-background:#F5EFE2;
-  --color-surface:#FFFBF5;
-  --color-surface-alt:#EDE3CC;
-  --color-text:#2E2A24;
-  --color-text-secondary:#6B6560;
-  --color-border:#DDD2BB;
-  --color-muted:#EBE0C8;
-  --color-teal:#23433E;
-  --color-sage:#7A9B7D;
-  --color-charcoal:#1A2E2A;
+  --color-primary: #8E3E27;
+  --color-primary-hover: #74311E;
+  --color-secondary: #1C332D;
+  --color-accent: #9A7228;
+  --color-background: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F3EFEA;
+  --color-text: #171614;
+  --color-text-secondary: #5C5852;
+  --color-border: #E6E0D6;
+  --color-border-strong: #D1C9BC;
+  --color-muted: #EAE4DC;
+  --color-teal: #24423B;
+  --color-sage: #5E7D63;
+  --color-charcoal: #1C332D;
 
-  --radius-xs:10px;
-  --radius-sm:14px;
-  --radius-md:18px;
-  --radius-lg:24px;
-  --radius-xl:32px;
-  --radius-pill:999px;
+  /* Radios arquitectónicos contenidos (12-16px para tarjetas) */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
 
-  --shadow-soft:0 8px 28px rgba(46,42,36,0.08);
-  --shadow-medium:0 14px 36px rgba(46,42,36,0.13);
-  --shadow-float:0 22px 48px rgba(26,46,42,0.18);
+  /* Elevaciones sutiles con offset real */
+  --shadow-soft: 0 2px 12px rgba(23, 22, 20, 0.04);
+  --shadow-medium: 0 8px 24px rgba(23, 22, 20, 0.07);
+  --shadow-float: 0 20px 44px rgba(23, 22, 20, 0.14);
 
-  --font-heading:'Fraunces', Georgia, serif;
-  --font-body:'Inter', system-ui, sans-serif;
-  --font-accent:'Instrument Serif', Georgia, serif;
+  /* Curvas de animación Emil Kowalski */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --container:1280px;
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-accent: 'Fraunces', Georgia, serif;
+
+  --container: 1280px;
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth; scrollbar-gutter: stable;}
-body{
-  margin:0;
-  background: var(--color-background);
-  color:var(--color-text);
-  font-family:var(--font-body);
-  -webkit-font-smoothing:antialiased;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-}
-img{display:block; max-width:100%}
-a{color:inherit; text-decoration:none}
-button{font-family:inherit}
-
-/* layout helpers kept for compatibility */
-.container{
-  width:min(var(--container), calc(100% - 32px));
-  margin-inline:auto;
-}
-@media(max-width:640px){
-  .container{ width:min(var(--container), calc(100% - 20px)); }
+  caret-color: var(--color-primary);
+  overflow-x: hidden;
 }
 
-/* scrollbar */
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:#C9B99A;border-radius:999px;border:2px solid #F5EFE2}
-::-webkit-scrollbar-track{background:#F5EFE2}
-
-/* animations */
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.45} }
-@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-@keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
-
-/* legacy utilities maintained */
-.section-pad{padding:80px 0}
-@media(max-width:768px){ .section-pad{padding:52px 0} }
-.eyebrow{
-  display:inline-flex;align-items:center;gap:10px;
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--color-primary);font-weight:800;
+/* Superficies del navegador temáticas (craft-floor) */
+::selection {
+  background-color: #EAE4DC;
+  color: #171614;
 }
-.eyebrow::before{content:"";width:32px;height:1.5px;background:var(--color-primary);display:inline-block}
-.divider{height:1px;background:var(--color-border)}
-.badge-dot{width:8px;height:8px;border-radius:50%;background:#2FEAA1;box-shadow:0 0 0 6px rgba(47,234,161,.18);animation:pulseDot 1.6s infinite}
 
-/* subtle paper texture */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.32;
-  background-image: radial-gradient(at 20% 20%, rgba(158,77,46,.07) 0, transparent 50%), radial-gradient(at 90% 10%, rgba(26,46,42,.06) 0, transparent 40%), radial-gradient(at 50% 90%, rgba(198,154,46,.05) 0, transparent 45%);
-  z-index:-1;
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* Foco visible de teclado accesible y coherente */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Numerales tabulares para precios, gramajes y metrajes */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Contenedor principal */
+.container {
+  width: min(var(--container), calc(100% - 40px));
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: min(var(--container), calc(100% - 24px));
+  }
+}
+
+/* Scrollbar personalizado de estudio */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1C9BC;
+  border-radius: 999px;
+  border: 2px solid #FAF8F5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8AE9E;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+
+/* Keyframes discretos con propósito (solo transform y opacity) */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes drawerEnter {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes voiceWave {
+  0%, 100% {
+    transform: scaleY(0.32);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Utilidades estructurales */
+.section-pad {
+  padding: 88px 0;
+}
+
+@media (max-width: 768px) {
+  .section-pad {
+    padding: 56px 0;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Respeto estricto a usuarios con reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

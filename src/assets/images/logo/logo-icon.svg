@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img"><rect width="120" height="120" rx="24" fill="#1A2E2A"/><text x="60" y="74" text-anchor="middle" font-family="Georgia, serif" font-size="42" font-weight="900" fill="white">X</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Kotton Icon">
+  <rect width="120" height="120" rx="20" fill="#1C332D"/>
+  <path d="M36 28v64M52 28v64" stroke="#FAF8F5" stroke-width="5.5" stroke-linecap="square"/>
+  <path d="M52 60 84 30M52 60l32 30" stroke="#D1C9BC" stroke-width="6" stroke-linecap="square"/>
+</svg>

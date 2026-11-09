@@ -4,46 +4,85 @@ import { onImageError } from "../../utils/image";
 
 export function About() {
   return (
-    <section id="nosotros" className="py-16 lg:py-20 bg-[#F5EFE2]">
-      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))] grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        <div className="grid grid-cols-[1.15fr_0.85fr] gap-3 order-2 lg:order-1">
-          <img src={images.nosotros.telas} alt="Telas - selección curada" onError={onImageError} className="rounded-[20px] aspect-[3/4] object-cover border border-[#DDD2BB] shadow-[0_10px_28px_rgba(46,42,36,0.09)] bg-white" />
-          <div className="flex flex-col gap-3">
-            <img src={images.nosotros.textura} alt="Textura - detalle fibra" onError={onImageError} className="rounded-[20px] aspect-square object-cover border border-[#DDD2BB] shadow-sm bg-white" />
-            <div className="bg-[#1A2E2A] text-white rounded-[20px] p-5 flex flex-col justify-center flex-1 border border-[#1A2E2A] shadow-[0_10px_28px_rgba(26,46,42,0.18)]">
-              <div className="font-black text-[36px] leading-none tracking-tight">+8</div>
-              <div className="text-[13px] opacity-80 leading-tight mt-1">años vistiendo ideas<br /><span className="font-bold opacity-100">en Gamarra</span></div>
-              <div className="mt-3 w-full h-px bg-white/15" />
-              <div className="text-[11px] opacity-60 mt-2 tracking-wide uppercase font-semibold">Selección curada · Asesoría humana + IA</div>
+    <section id="nosotros" className="py-16 lg:py-24 bg-[#FAF8F5]">
+      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-40px))] max-sm:w-[min(1280px,calc(100%-24px))] grid lg:grid-cols-[1.02fr_0.98fr] gap-10 lg:gap-14 items-center">
+        {/* Composición fotográfica de atelier */}
+        <div className="grid grid-cols-[1.15fr_0.85fr] gap-4 order-2 lg:order-1">
+          <figure className="m-0 flex flex-col">
+            <div className="rounded-[12px] aspect-[3/4] overflow-hidden border border-[#D1C9BC] bg-white">
+              <img
+                src={images.nosotros.telas}
+                alt="Estantería de rollos textiles en el estudio Kotton"
+                onError={onImageError}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <figcaption className="text-[11px] text-[#5C5852] mt-2 font-medium">
+              Archivo de partidas clasificadas por fibra y gramaje.
+            </figcaption>
+          </figure>
+
+          <div className="flex flex-col gap-4">
+            <figure className="m-0">
+              <div className="rounded-[12px] aspect-square overflow-hidden border border-[#D1C9BC] bg-white">
+                <img
+                  src={images.nosotros.textura}
+                  alt="Detalle macro de urdimbre y trama de lino y algodón Pima"
+                  onError={onImageError}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </figure>
+
+            <div className="bg-[#171614] text-[#FAF8F5] rounded-[12px] p-5 flex flex-col justify-between flex-1 border border-[#171614]">
+              <div>
+                <div className="font-[Fraunces] font-semibold text-[32px] leading-none tracking-tight tabular-nums text-white">
+                  Gamarra
+                </div>
+                <div className="text-[13px] text-[#D1C9BC] leading-snug mt-2">
+                  Sede comercial y despacho directo a talleres de confección en Lima y provincias.
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-white/15 text-[11px] text-[#EAE4DC] font-medium">
+                Control de lote · Venta por metro lineal
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Columna editorial */}
         <div className="order-1 lg:order-2">
-          <span className="inline-flex items-center gap-2.5 text-[11px] tracking-[0.16em] uppercase font-extrabold text-[#9E4D2E]">
-            <span className="w-8 h-px bg-[#9E4D2E] inline-block" /> Nosotros
-          </span>
-          <h2 className="font-[Fraunces] text-[32px] sm:text-[36px] font-bold tracking-tight text-[#1A2E2A] mt-3 leading-[0.95]">{siteConfig.texts.aboutTitle}</h2>
-          <p className="text-[#6B6560] leading-[1.7] mt-4 text-[15px]">{siteConfig.texts.aboutText}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+          <h2 className="font-[Fraunces] text-[30px] sm:text-[36px] font-semibold tracking-[-0.025em] text-[#171614] leading-[1.1]">
+            {siteConfig.texts.aboutTitle}
+          </h2>
+
+          <p className="text-[#5C5852] leading-[1.7] mt-4 text-[15px] max-w-[65ch]">
+            {siteConfig.texts.aboutText}
+          </p>
+
+          <dl className="mt-8 border-t border-[#E6E0D6] divide-y divide-[#E6E0D6]">
             {[
-              ["Selección curada", "Cada tela pasa por mano y ojo experto.", "◈"],
-              ["Asesoría con IA", "Tecnología cálida que entiende tu proyecto.", "✦"],
-            ].map(([t, d, icon]) => (
-              <div key={t} className="bg-[#FFFBF5] border border-[#DDD2BB] rounded-2xl p-4 hover:shadow-sm hover:border-[#C9B99A] transition-colors">
-                <div className="w-8 h-8 rounded-xl bg-[#EBE0C8] border border-[#DDD2BB] grid place-items-center text-[#1A2E2A] font-bold text-xs">{icon}</div>
-                <div className="font-bold text-sm mt-3 text-[#1A2E2A]">{t}</div>
-                <div className="text-[12px] text-[#6B6560] mt-1 leading-relaxed">{d}</div>
+              [
+                "Transparencia en composición y título",
+                "Documentamos el porcentaje exacto de fibra, tipo de ligamento (Jersey, Tafetán, Sarga 3x1, Satén, Rib 2x2) y peso en g/m².",
+              ],
+              [
+                "Asesoría técnica asistida",
+                "Nuestro recomendador cruza los requerimientos mecánicos de tu prenda con las partidas disponibles en almacén.",
+              ],
+              [
+                "Abastecimiento flexible",
+                "Cotiza desde metraje para muestras y prototipos hasta partidas completas para producción en serie.",
+              ],
+            ].map(([title, desc]) => (
+              <div key={title} className="py-4">
+                <dt className="font-semibold text-[14px] text-[#171614]">{title}</dt>
+                <dd className="text-[13px] text-[#5C5852] mt-1 leading-relaxed">{desc}</dd>
               </div>
             ))}
-          </div>
-          <div className="flex items-center gap-3 mt-6">
-            <img src={images.nosotros.avatarEquipo} alt="Equipo Kotton" onError={onImageError} className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm bg-white" />
-            <div className="text-xs leading-tight">
-              <div className="font-bold text-[#1A2E2A]">Equipo Kotton Kids</div>
-              <div className="text-[#6B6560]">Gamarra, La Victoria · Lima</div>
-            </div>
-            <span className="ml-auto hidden sm:inline-flex items-center gap-1.5 text-[11px] font-bold bg-white border border-[#DDD2BB] px-3 py-1.5 rounded-full text-[#6B6560]">Atención cercana <span className="w-1.5 h-1.5 rounded-full bg-[#2FEAA1] inline-block" /></span>
-          </div>
+          </dl>
         </div>
       </div>
     </section>

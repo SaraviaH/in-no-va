@@ -1,20 +1,18 @@
 /**
  * Configuración central de imágenes locales.
- * No escribir rutas en componentes: todo consumo via este módulo
- * o via datos (product.images, category.imagen) que ya apuntan aquí.
+ * No escribir rutas en componentes: todo consumo vía este módulo
+ * o vía datos (product.imagenes, category.imagen) que ya apuntan aquí.
  *
- * Estructura solicitada:
+ * Estructura:
  *   src/assets/images/
- *     logo/
- *     hero/
- *     categories/
- *     products/{slug}/
- *     nosotros/
- *     contacto/
- *     ui/
- *
- * Cada importación es tratada por Vite como URL; es intercambiable
- * por URL externa en el futuro sin tocar componentes visuales.
+ *     logo/         (Monogramas vectoriales de urdimbre y trama)
+ *     hero/         (Fotografía editorial principal + fallback técnico)
+ *     categories/   (Fotografías macro editoriales de las 6 familias de fibras)
+ *     products/     (Muestrarios técnicos de color, ligamento y gramaje 4:5;
+ *                    listas para sustituirse por fotografía de lote real de taller)
+ *     nosotros/     (Fotografías de estudio, rollos y macro de trama)
+ *     contacto/     (Mesa de corte de showroom y plano arquitectónico de Gamarra)
+ *     ui/           (Símbolos de asistente y estados de respaldo)
  */
 
 // Logo
@@ -22,19 +20,19 @@ import logo from "./logo/logo.svg";
 import logoIcon from "./logo/logo-icon.svg";
 import kottonMark from "./logo/kotton-mark.svg";
 
-// Hero (1 imagen principal)
-import heroMain from "./hero/hero-main.svg";
+// Hero (Fotografía editorial de estudio + respaldo vectorial)
+import heroMain from "./hero/hero-main.jpg";
 import heroFallback from "./hero/hero-fallback.svg";
 
-// Categorías (exactamente 1 por categoría)
-import catAlgodon from "./categories/algodon.svg";
-import catLino from "./categories/lino.svg";
-import catMezclas from "./categories/mezclas.svg";
-import catSeda from "./categories/seda.svg";
-import catDenim from "./categories/denim.svg";
-import catPunto from "./categories/punto.svg";
+// Categorías (Fotografías macro de texturas por fibra)
+import catAlgodon from "./categories/algodon.jpg";
+import catLino from "./categories/lino.jpg";
+import catMezclas from "./categories/mezclas.jpg";
+import catSeda from "./categories/seda.jpg";
+import catDenim from "./categories/denim.jpg";
+import catPunto from "./categories/punto.jpg";
 
-// Productos (arrays 1..n por producto)
+// Productos (Cartas técnicas de color y ligamento 4:5 — no inventan fotos ficticias de lote)
 import prodAlgodonPremium01 from "./products/algodon-premium/01.svg";
 import prodAlgodonPremium02 from "./products/algodon-premium/02.svg";
 import prodAlgodonPremium03 from "./products/algodon-premium/03.svg";
@@ -51,13 +49,13 @@ import prodAlgodonCrudo01 from "./products/algodon-crudo/01.svg";
 import prodLinoTerracota01 from "./products/lino-terracota/01.svg";
 import prodLinoTerracota02 from "./products/lino-terracota/02.svg";
 
-// Nosotros
-import nosotrosTelas from "./nosotros/telas.svg";
-import nosotrosTextura from "./nosotros/textura.svg";
+// Nosotros (Fotografías editoriales de atelier y macro de tejido)
+import nosotrosTelas from "./nosotros/telas.jpg";
+import nosotrosTextura from "./nosotros/textura.jpg";
 import nosotrosAvatarEquipo from "./nosotros/avatar-equipo.svg";
 
-// Contacto
-import contactoTienda from "./contacto/tienda.svg";
+// Contacto (Showroom y plano de Gamarra)
+import contactoTienda from "./contacto/tienda.jpg";
 import contactoUbicacion from "./contacto/ubicacion.svg";
 
 // UI / placeholders / avatares / IA
@@ -106,11 +104,9 @@ export const images = {
   },
   ui: {
     placeholder,
+    avatars: [avatar01, avatar02, avatar03],
     aiAvatar,
-    avatars: [avatar01, avatar02, avatar03] as string[],
   },
 } as const;
 
-// Helpers tipados por id de producto/categoria para uso futuro
-export type ProductImageKey = keyof typeof images.products;
-export type CategoryImageKey = keyof typeof images.categories;
+export type ImagesCatalog = typeof images;

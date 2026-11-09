@@ -1,44 +1,72 @@
+import { siteConfig } from "../../config/site";
+
 export function HowItWorks() {
   const steps = [
-    { n: "01", t: "Cuéntanos qué necesitas", d: "Describe tu proyecto, prenda o sensación que buscas.", icon: "◐" },
-    { n: "02", t: "La IA interpreta tu solicitud", d: "Kotton AI entiende textura, caída y uso ideal.", icon: "✦" },
-    { n: "03", t: "Consulta las opciones del catálogo", d: "Cruza tu idea con telas reales disponibles.", icon: "▦" },
-    { n: "04", t: "Recibe recomendaciones", d: "Ve cards, compara y añade al carrito al instante.", icon: "✧" },
+    {
+      n: "01",
+      t: "Define la prenda o requerimiento",
+      d: "Indica el tipo de prenda (bebé, deportiva, sastrería de verano o denim) y el comportamiento esperado.",
+      spec: "Entrada por catálogo o Concierge IA",
+    },
+    {
+      n: "02",
+      t: "Evaluación de ligamento y gramaje",
+      d: "Cruzamos tu necesidad con la composición, título de hilo, peso por metro cuadrado y elasticidad.",
+      spec: "Parámetros técnicos verificados",
+    },
+    {
+      n: "03",
+      t: "Inspección de ficha y metraje",
+      d: "Revisa el pasaporte técnico de cada tela y calcula el subtotal referencial según los metros lineales.",
+      spec: "Cálculo desde 1 metro lineal",
+    },
+    {
+      n: "04",
+      t: "Confirmación de lote por WhatsApp",
+      d: "Envía tu hoja de cotización con un clic para confirmar disponibilidad de rollo y despacho desde Gamarra.",
+      spec: "Atención directa de almacén",
+    },
   ];
+
   return (
-    <section id="como-funciona" className="py-16 lg:py-20 bg-[#FFFBF5] border-y border-[#DDD2BB]">
-      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-32px))] max-sm:w-[min(1280px,calc(100%-20px))]">
-        <div className="text-center max-w-[640px] mx-auto">
-          <span className="inline-flex items-center gap-2.5 text-[11px] tracking-[0.16em] uppercase font-extrabold text-[#9E4D2E] justify-center">
-            <span className="w-6 h-px bg-[#9E4D2E] inline-block" /> Flujo inteligente <span className="w-6 h-px bg-[#9E4D2E] inline-block" />
-          </span>
-          <h2 className="font-[Fraunces] text-[32px] font-bold tracking-tight text-[#1A2E2A] mt-3">Cómo funciona</h2>
-          <p className="text-[#6B6560] mt-2 text-[14px]">Cliente → IA → Catálogo → Recomendaciones · Todo en segundos</p>
+    <section id="como-funciona" className="py-16 lg:py-24 bg-[#F3EFEA] border-y border-[#E6E0D6]">
+      <div className="mx-auto max-w-[1280px] w-[min(1280px,calc(100%-40px))] max-sm:w-[min(1280px,calc(100%-24px))]">
+        <div className="max-w-[620px]">
+          <h2 className="font-[Fraunces] text-[28px] sm:text-[34px] font-semibold tracking-[-0.025em] leading-[1.12] text-[#171614]">
+            {siteConfig.texts.howItWorksTitle}
+          </h2>
+          <p className="text-[#5C5852] mt-2.5 text-[15px] leading-relaxed">
+            Un flujo directo pensado para diseñadores, talleres de confección y marcas independientes que requieren precisión técnica antes de cortar.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        {/* Grilla arquitectónica continua con divisiones de 1px */}
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-white border border-[#D1C9BC] rounded-[12px] divide-y sm:divide-y-0 sm:divide-x divide-[#E6E0D6] mt-10 overflow-hidden list-none p-0">
           {steps.map(s => (
-            <div key={s.n} className="group bg-[#F5EFE2] border border-[#DDD2BB] rounded-[18px] p-5 hover:bg-white hover:shadow-[0_10px_28px_rgba(46,42,36,0.08)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-[#EBE0C8] rounded-bl-[40px] opacity-0 group-hover:opacity-60 transition-opacity" />
-              <div className="flex items-center gap-3">
-                <span className="w-9 h-9 rounded-xl bg-[#1A2E2A] text-white grid place-items-center text-[13px] font-bold">{s.icon}</span>
-                <span className="text-[11px] font-black tracking-[0.12em] text-[#9E4D2E]">{s.n}</span>
+            <li key={s.n} className="p-6 flex flex-col justify-between gap-6">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-[Fraunces] text-[22px] font-semibold text-[#8E3E27] tabular-nums">
+                    {s.n}
+                  </span>
+                  <span className="text-[11px] font-medium text-[#5C5852] bg-[#FAF8F5] border border-[#E6E0D6] px-2 py-0.5 rounded-[4px]">
+                    Etapa {s.n}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-[16px] text-[#171614] mt-4 leading-snug">
+                  {s.t}
+                </h3>
+                <p className="text-[13px] text-[#5C5852] mt-2 leading-relaxed">
+                  {s.d}
+                </p>
               </div>
-              <div className="font-bold text-[#1A2E2A] mt-4 leading-tight">{s.t}</div>
-              <div className="text-[13px] text-[#6B6560] mt-2 leading-relaxed">{s.d}</div>
-            </div>
-          ))}
-        </div>
 
-        <div className="flex items-center justify-center gap-2 mt-7 flex-wrap text-xs font-bold text-[#6B6560]">
-          <span className="bg-[#F5EFE2] border border-[#DDD2BB] px-3 py-1.5 rounded-full text-[#1A2E2A]">Cliente</span>
-          <span className="text-[#C9B99A]">→</span>
-          <span className="bg-[#1A2E2A] text-white px-3 py-1.5 rounded-full">IA</span>
-          <span className="text-[#C9B99A]">→</span>
-          <span className="bg-white border border-[#DDD2BB] px-3 py-1.5 rounded-full text-[#1A2E2A]">Catálogo</span>
-          <span className="text-[#C9B99A]">→</span>
-          <span className="bg-[#9E4D2E] text-white px-3 py-1.5 rounded-full">Recomendaciones</span>
-        </div>
+              <div className="pt-3 border-t border-[#E6E0D6] text-[11px] font-semibold text-[#1C332D]">
+                {s.spec}
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
