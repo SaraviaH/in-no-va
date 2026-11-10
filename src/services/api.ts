@@ -104,38 +104,99 @@ const CATEGORY_ALIASES: { id: ProductCategoryId; label: string; keywords: string
 ];
 
 function findProductInQuery(q: string): Product | undefined {
-  // Coincidencia por ID explícito (ej. p-01) o por nombre/tipo
-  const byId = products.find(p => q.includes(p.id.toLowerCase()));
+  // Normalizar erratas comunes de tipeo (ej. primum -> premium, algodon -> algodon)
+  const cleanQ = q.replace(/\bprimum\b/g, "premium");
+
+  // 1. Coincidencia por ID explícito (ej. p-01, p-02)
+  const byId = products.find(p => cleanQ.includes(p.id.toLowerCase()));
   if (byId) return byId;
 
-  const byFullName = products.find(p => q.includes(normalizeText(p.nombre)));
+  // 2. Coincidencia por nombre completo o parcial
+  const byFullName = products.find(p => {
+    const normName = normalizeText(p.nombre);
+    return cleanQ.includes(normName) || (cleanQ.length >= 5 && normName.includes(cleanQ));
+  });
   if (byFullName) return byFullName;
 
-  // Coincidencia por alias específicos de partida
-  if (q.includes("algodon pima") || q.includes("pima nube") || q.includes("premium pima")) {
+  // 3. Coincidencia por alias específicos de partida y variantes
+  if (
+    cleanQ.includes("algodon premium") ||
+    cleanQ.includes("algodon pima") ||
+    cleanQ.includes("pima premium") ||
+    cleanQ.includes("pima nube") ||
+    cleanQ.includes("premium pima") ||
+    cleanQ.includes("pima")
+  ) {
     return products.find(p => p.id === "p-01");
   }
-  if (q.includes("lino natural") || q.includes("lino lavado") || q.includes("lino arena")) {
+  if (
+    cleanQ.includes("lino natural") ||
+    cleanQ.includes("lino lavado") ||
+    cleanQ.includes("lino arena") ||
+    cleanQ.includes("lino europeo")
+  ) {
     return products.find(p => p.id === "p-02");
   }
-  if (q.includes("mezcla soft") || q.includes("modal terracota")) {
+  if (
+    cleanQ.includes("mezcla soft") ||
+    cleanQ.includes("modal terracota") ||
+    cleanQ.includes("algodon modal") ||
+    cleanQ.includes("modal")
+  ) {
     return products.find(p => p.id === "p-03");
   }
-  if (q.includes("denim organico") || q.includes("denim indigo")) {
+  if (
+    cleanQ.includes("denim organico") ||
+    cleanQ.includes("denim indigo") ||
+    cleanQ.includes("sarga denim") ||
+    cleanQ.includes("denim") ||
+    cleanQ.includes("jean")
+  ) {
     return products.find(p => p.id === "p-04");
   }
-  if (q.includes("seda charmeuse") || q.includes("charmeuse mostaza") || q.includes("charmeuse")) {
+  if (
+    cleanQ.includes("seda charmeuse") ||
+    cleanQ.includes("charmeuse mostaza") ||
+    cleanQ.includes("seda saten") ||
+    cleanQ.includes("charmeuse") ||
+    cleanQ.includes("seda")
+  ) {
     return products.find(p => p.id === "p-05");
   }
-  if (q.includes("punto canale") || q.includes("canale salvia") || q.includes("canale")) {
+  if (
+    cleanQ.includes("punto canale") ||
+    cleanQ.includes("canale salvia") ||
+    cleanQ.includes("punto rib") ||
+    cleanQ.includes("canale") ||
+    cleanQ.includes("rib")
+  ) {
     return products.find(p => p.id === "p-06");
   }
-  if (q.includes("algodon crudo") || q.includes("organico crudo") || q.includes("tocuyo")) {
+  if (
+    cleanQ.includes("algodon crudo") ||
+    cleanQ.includes("organico crudo") ||
+    cleanQ.includes("tocuyo") ||
+    cleanQ.includes("algodon organico")
+  ) {
     return products.find(p => p.id === "p-07");
   }
-  if (q.includes("lino terracota")) {
+  if (
+    cleanQ.includes("lino terracota") ||
+    cleanQ.includes("lino rustico") ||
+    cleanQ.includes("lino pesado")
+  ) {
     return products.find(p => p.id === "p-08");
   }
+
+  // 4. Token overlap: Si coincide con 2 o más palabras clave del nombre
+  for (const prod of products) {
+    const tokens = normalizeText(prod.nombre).split(" ").filter(t => t.length > 3);
+    const matches = tokens.filter(t => cleanQ.includes(t));
+    if (matches.length >= 2) {
+      return prod;
+    }
+  }
+
   return undefined;
 }
 
@@ -621,19 +682,22 @@ export const api = {
         : "";
       const detalles = [g, e].filter(Boolean).join(" y ");
       return {
-        text: `El tejido "${specificProduct.nombre}" (${specificProduct.material}) es de ligamento ${specificProduct.tipoTejido || specificProduct.tipo}${detalles ? ` ${detalles}` : ""}. Se recomienda principalmente para: ${specificProduct.usos.join(", ")}.`,
+        text: `¡Claro! Aquí tienes la ficha de "${specificProduct.nombre}" (${specificProduct.material}). Es un tejido con gramaje de ${specificProduct.gramaje || "160 g/m²"}, ligamento ${specificProduct.tipoTejido || specificProduct.tipo}${detalles ? ` ${detalles}` : ""}. Recomendado para: ${specificProduct.usos.slice(0, 3).join(", ")}.`,
         products: [specificProduct],
         detectedIntent: "Consulta de producto",
         matchedAttributes: [specificProduct.material, specificProduct.gramaje || "Estándar"].filter(
           Boolean
         ),
-        actions: sanitizeActions([
-          {
-            type: "openProduct",
-            productId: specificProduct.id,
-            label: `Abrir ficha: ${specificProduct.nombre}`,
-          },
-        ]),
+        actions:
+          q.includes("abre la ficha") || q.includes("abrir ficha") || q.includes("ver ficha")
+            ? sanitizeActions([
+                {
+                  type: "openProduct",
+                  productId: specificProduct.id,
+                  label: `Abrir ficha: ${specificProduct.nombre}`,
+                },
+              ])
+            : undefined,
       };
     }
 

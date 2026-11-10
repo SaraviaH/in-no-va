@@ -655,43 +655,73 @@ export function AiBubble({
                     )}
                   </div>
 
-                  {/* Tarjetas de producto recomendadas */}
+                  {/* Tarjetas de producto recomendadas desplegadas */}
                   {m.products && m.products.length > 0 && (
-                    <div className="flex flex-col gap-2 mt-2 w-full">
+                    <div className="flex flex-col gap-2.5 mt-2.5 w-full">
                       {m.products.map(p => (
                         <div
                           key={p.id}
-                          className="bg-white border border-[#E6E0D6] rounded-[10px] p-2.5 flex gap-2.5 items-center"
+                          className="bg-white border border-[#E6E0D6] rounded-[12px] p-3 flex gap-3 items-center shadow-xs hover:border-[#D1C9BC] transition-all"
                         >
-                          <img
-                            src={resolveImage(p.imagenes[0])}
-                            alt={p.nombre}
-                            onError={onImageError}
-                            className="w-12 h-[60px] rounded-[6px] object-cover border border-[#E6E0D6] shrink-0 bg-[#F3EFEA]"
-                          />
+                          <button
+                            type="button"
+                            onClick={() => onViewProduct(p)}
+                            aria-label={`Ver ficha de ${p.nombre}`}
+                            className="w-14 h-[68px] rounded-[8px] overflow-hidden border border-[#EAE4DC] shrink-0 bg-[#F3EFEA] cursor-pointer group"
+                          >
+                            <img
+                              src={resolveImage(p.imagenes[0])}
+                              alt={p.nombre}
+                              onError={onImageError}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                            />
+                          </button>
+
                           <div className="flex-1 min-w-0">
-                            <div className="font-semibold text-[13px] truncate text-[#171614]">
-                              {p.nombre}
+                            <div className="flex items-center gap-1.5 mb-0.5">
+                              <span className="text-[10px] font-semibold text-[#8E3E27] uppercase tracking-wider truncate">
+                                {p.tipo || p.material}
+                              </span>
+                              {p.gramaje && (
+                                <span className="text-[10px] text-[#5C5852] font-medium shrink-0">
+                                  · {p.gramaje}
+                                </span>
+                              )}
                             </div>
-                            <div className="text-[11px] text-[#5C5852] truncate tabular-nums">
-                              {p.gramaje ? `${p.gramaje} · ` : ""}S/{" "}
-                              {p.precioReferencial.toFixed(2)} / m
+
+                            <h4
+                              onClick={() => onViewProduct(p)}
+                              className="font-semibold text-[13px] text-[#171614] truncate cursor-pointer hover:text-[#8E3E27] transition-colors"
+                              title={p.nombre}
+                            >
+                              {p.nombre}
+                            </h4>
+
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="font-bold text-[13px] text-[#171614] tabular-nums">
+                                S/ {p.precioReferencial.toFixed(2)}
+                              </span>
+                              <span className="text-[10px] text-[#5C5852]">/ metro</span>
+                              <span className="text-[10px] font-medium text-[#24423B] bg-[#EBF3ED] px-1.5 py-0.2 rounded-xs ml-auto shrink-0">
+                                {p.disponibilidad}
+                              </span>
                             </div>
                           </div>
-                          <div className="flex flex-col gap-1 shrink-0">
-                            <button
-                              type="button"
-                              onClick={() => onViewProduct(p)}
-                              className="text-[11px] font-semibold bg-[#FAF8F5] border border-[#D1C9BC] rounded-[6px] px-2.5 py-1 cursor-pointer hover:border-[#171614] transition-colors text-[#171614]"
-                            >
-                              Ficha
-                            </button>
+
+                          <div className="flex flex-col gap-1.5 shrink-0 pl-1 border-l border-[#FAF8F5]">
                             <button
                               type="button"
                               onClick={() => onAddToCart(p)}
-                              className="text-[11px] font-semibold bg-[#8E3E27] text-white border border-[#8E3E27] rounded-[6px] px-2.5 py-1 cursor-pointer hover:bg-[#74311E] transition-colors"
+                              className="text-[11px] font-semibold bg-[#8E3E27] text-white border border-[#8E3E27] rounded-[7px] px-2.5 py-1.5 cursor-pointer hover:bg-[#74311E] transition-colors shadow-xs active:scale-95"
                             >
-                              + 1 m
+                              + Cotizar
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => onViewProduct(p)}
+                              className="text-[10px] font-semibold bg-[#FAF8F5] border border-[#D1C9BC] rounded-[7px] px-2 py-1 cursor-pointer hover:border-[#171614] transition-colors text-[#171614]"
+                            >
+                              Ficha
                             </button>
                           </div>
                         </div>
