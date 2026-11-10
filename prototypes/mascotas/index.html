@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mascotas de Kotton · Prototipos</title>
+  <link rel="stylesheet" href="./picker.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <span class="wordmark">KOTTON</span>
+    <span>Prototipos de mascota</span>
+  </header>
+  <main class="layout">
+    <section class="controls" aria-labelledby="variant-name">
+      <h1 id="variant-name"></h1>
+      <p id="variant-description"></p>
+      <fieldset>
+        <legend>Probar un gesto</legend>
+        <div class="actions">
+          <button type="button" data-action="wave">Saludar</button>
+          <button type="button" data-action="curious">Escuchar</button>
+          <button type="button" data-action="joy">Celebrar</button>
+        </div>
+      </fieldset>
+      <p class="hint">Déjala en reposo unos segundos para ver qué hace sola.</p>
+      <details>
+        <summary>Cómo se anima</summary>
+        <p id="variant-architecture"></p>
+      </details>
+    </section>
+    <section class="store" aria-label="Vista previa de la tienda Kotton">
+      <header class="store-header">
+        <span class="store-wordmark">KOTTON</span>
+        <span>Estudio textil</span>
+      </header>
+      <div class="store-hero">
+        <img src="../../src/assets/images/hero/hero-main.jpg" alt="Rollos de tela en el atelier de Kotton">
+        <div class="store-copy">
+          <span>Gamarra, Lima</span>
+          <h2>Tejidos nobles para confección</h2>
+          <p>Algodón Pima, lino y mezclas para tu próximo proyecto.</p>
+        </div>
+      </div>
+      <div class="samples">
+        <span>Algodón Pima</span>
+        <span>Lino natural</span>
+        <span>Punto canalé</span>
+      </div>
+      <div class="companion">
+        <p id="mascot-message" role="status"></p>
+        <button type="button" id="stage" aria-label="Saludar a la mascota"></button>
+      </div>
+    </section>
+  </main>
+  <nav class="proto-picker" aria-label="Prototype variants">
+    <span class="proto-picker-highlight" aria-hidden="true"></span>
+    <button class="proto-picker-item" data-active aria-current="true">Paku</button>
+    <button class="proto-picker-item">Bobina</button>
+    <button class="proto-picker-item">Parche</button>
+    <span class="proto-picker-divider" aria-hidden="true"></span>
+    <button class="proto-picker-item proto-picker-replay" aria-label="Replay animation (R)">↻</button>
+  </nav>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

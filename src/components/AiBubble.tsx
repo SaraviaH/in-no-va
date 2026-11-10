@@ -8,8 +8,8 @@ import type {
 } from "../types/product";
 import { api, validateAssistantAction } from "../services/api";
 import { resolveImage, onImageError } from "../utils/image";
-import { images } from "../assets/images";
 import { useVoiceAssistant, type VoiceStatus } from "../hooks/useVoiceAssistant";
+import { PakuSprite, type PakuActivity, type PakuReaction } from "./paku/PakuSprite";
 import {
   IconCheck,
   IconClose,
@@ -80,6 +80,10 @@ const VOICE_STATUS_META: Record<
 
 export function AiBubble({
   open,
+  covered,
+  browsing,
+  reaction,
+  onReact,
   onToggle,
   onViewProduct,
   onAddToCart,
@@ -89,6 +93,10 @@ export function AiBubble({
   onExecuteAction,
 }: {
   open: boolean;
+  covered: boolean;
+  browsing: boolean;
+  reaction: PakuReaction | null;
+  onReact: (pose: PakuReaction["pose"]) => void;
   onToggle: () => void;
   onViewProduct: (p: Product) => void;
   onAddToCart: (p: Product) => void;
@@ -101,7 +109,7 @@ export function AiBubble({
     {
       id: "m1",
       role: "assistant",
-      text: "Bienvenido al estudio técnico de KOTTON. Puedes consultarme por voz o texto qué prenda vas a confeccionar o pedirme navegar por la tienda (ej. 'Muéstrame las telas de algodón', 'Busca telas para pijamas' o 'Muéstrame el carrito').",
+      text: "¡Hola! Soy Paku, el asesor textil de Kotton. Cuéntame qué prenda quieres confeccionar o pídeme ver telas, buscar en el catálogo o abrir tu cotización.",
       timestamp: Date.now(),
     },
   ]);
@@ -109,7 +117,10 @@ export function AiBubble({
   const [loading, setLoading] = useState(false);
   const [confirmedMsgIds, setConfirmedMsgIds] = useState<Record<string, "confirmed" | "cancelled">>({});
   const listRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const contextRef = useRef(navigationContext);
+  const panelVisible = open && !covered;
 
   useEffect(() => {
     contextRef.current = navigationContext;
@@ -192,23 +203,34 @@ export function AiBubble({
   }, [messages, loading, voice.interimTranscript]);
 
   useEffect(() => {
-    if (initialQuery && open) {
+    if (initialQuery && panelVisible) {
       const timer = setTimeout(() => {
         void send(initialQuery, false);
         onClearInitialQuery?.();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [initialQuery, open, onClearInitialQuery, send]);
+  }, [initialQuery, panelVisible, onClearInitialQuery, send]);
+
+  const closePanel = useCallback(() => {
+    onToggle();
+    setTimeout(() => {
+      launcherRef.current?.focus({ preventScroll: true });
+    }, 50);
+  }, [onToggle]);
 
   useEffect(() => {
-    if (!open) return;
+    if (panelVisible) panelRef.current?.focus({ preventScroll: true });
+  }, [panelVisible]);
+
+  useEffect(() => {
+    if (!panelVisible) return;
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onToggle();
+      if (e.key === "Escape") closePanel();
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [open, onToggle]);
+  }, [panelVisible, closePanel]);
 
   const handleConfirmPendingAction = (msgId: string, action: AssistantAction) => {
     if (!validateAssistantAction(action)) return;
@@ -237,50 +259,62 @@ export function AiBubble({
 
   const statusMeta = VOICE_STATUS_META[voice.status];
   const isListeningOrSpeaking = voice.status === "listening" || voice.status === "speaking";
+  let pakuActivity: PakuActivity = messages.length > 1 ? "reply" : "idle";
+  if (voice.status === "speaking" && !voice.isPaused) pakuActivity = "speaking";
+  if (loading) pakuActivity = "thinking";
+  if (voice.status === "listening") pakuActivity = "listening";
+
+  if (covered) return null;
 
   return (
     <>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-label={open ? "Cerrar asesor textil Kotton AI" : "Abrir asesor textil Kotton AI"}
-        aria-expanded={open}
-        className={`fixed right-5 bottom-5 z-[65] h-[52px] px-4 rounded-full border cursor-pointer inline-flex items-center gap-2.5 shadow-[0_12px_32px_rgba(23,22,20,0.22)] select-none transition-[transform,background-color,border-color,color] duration-150 ease-out active:scale-[0.97] ${
-          open
-            ? "bg-white text-[#171614] border-[#D1C9BC]"
-            : "bg-[#1C332D] text-[#FAF8F5] border-[#171614] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[#142621]"
-        }`}
-      >
-        {open ? (
-          <>
-            <IconClose size={17} />
-            <span className="text-[13px] font-semibold">Cerrar asesor</span>
-          </>
-        ) : (
-          <>
-            <IconSparkles size={16} />
-            <span className="text-[13px] font-semibold">Asesor Textil · Voz &amp; IA</span>
-          </>
-        )}
-      </button>
+      {!open ? (
+        <button
+          ref={launcherRef}
+          type="button"
+          onClick={onToggle}
+          onPointerEnter={event => {
+            if (event.pointerType === "mouse") onReact("wave");
+          }}
+          onFocus={event => {
+            if (event.currentTarget.matches(":focus-visible")) onReact("wave");
+          }}
+          aria-label="Conversar con Paku, asesor textil"
+          aria-expanded={false}
+          aria-haspopup="dialog"
+          className="fixed right-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8E3E27] sm:right-6 sm:bottom-6 flex flex-col items-end gap-1.5 transition-transform duration-200 active:scale-95 group"
+        >
+          {/* Bocadillo interactivo visible en móvil y desktop */}
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E6E0D6] bg-white/95 backdrop-blur-xs px-3.5 py-1.5 text-xs font-semibold text-[#1C332D] shadow-[0_6px_20px_rgba(23,22,20,0.12)] group-hover:border-[#8E3E27]/50 transition-colors">
+            <span>¡Hola! Soy Paku</span>
+            <span className="text-[13px] animate-bounce">🦙</span>
+            <span className="hidden sm:inline text-[#8E3E27] font-normal">· ¿Te ayudo con tus telas?</span>
+          </span>
 
-      {open && (
+          <PakuSprite
+            ambient
+            browsing={browsing}
+            reaction={reaction}
+            className="block h-[84px] w-auto sm:h-[120px] drop-shadow-[0_10px_22px_rgba(23,22,20,0.2)]"
+          />
+        </button>
+      ) : (
         <div
+          ref={panelRef}
+          id="paku-panel"
           role="dialog"
-          aria-label="Asesor Textil Kotton AI"
-          className="fixed left-3 right-3 sm:left-auto sm:right-5 bottom-[84px] z-[65] sm:w-[420px] max-w-[calc(100vw-24px)] h-[min(640px,calc(100dvh-100px))] bg-white rounded-[16px] border border-[#D1C9BC] shadow-[0_24px_56px_rgba(23,22,20,0.22)] overflow-hidden flex flex-col origin-bottom-right animate-[modalEnter_0.2s_cubic-bezier(0.16,1,0.3,1)]"
+          aria-label="Paku, asesor textil"
+          tabIndex={-1}
+          className="fixed left-3 right-3 sm:left-auto sm:right-6 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 sm:bottom-6 sm:w-[420px] max-w-[calc(100vw-24px)] h-[min(640px,calc(100dvh-2rem-env(safe-area-inset-bottom)))] bg-white rounded-[20px] border border-[#D1C9BC] shadow-[0_24px_56px_rgba(23,22,20,0.22)] overflow-hidden flex flex-col origin-bottom-right animate-[modalEnter_0.2s_cubic-bezier(0.16,1,0.3,1)]"
         >
           {/* Cabecera sobria de atelier con conmutador de Modo Voz */}
           <div className="bg-[#1C332D] text-[#FAF8F5] px-4 py-3 flex items-center gap-2.5 border-b border-white/10">
-            <img
-              src={images.ui.aiAvatar}
-              alt="Kotton AI"
-              onError={onImageError}
-              className="w-9 h-9 rounded-[8px] border border-white/15 bg-[#171614] object-cover shrink-0"
-            />
+            <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-lg bg-[#F3EFEA]">
+              <PakuSprite activity={pakuActivity} reaction={reaction?.pose === "happy" ? reaction : null} className="block h-11 w-auto" />
+            </span>
             <div className="min-w-0 flex-1">
               <div className="font-semibold text-[14px] leading-tight truncate">
-                Kotton AI · Voz &amp; Navegación
+                Paku · Asesor textil
               </div>
               <div className="text-[11px] text-[#D1C9BC] mt-0.5 truncate">
                 Asesor técnico y control de muestrario
@@ -304,7 +338,7 @@ export function AiBubble({
 
             <button
               type="button"
-              onClick={onToggle}
+              onClick={closePanel}
               aria-label="Cerrar ventana de chat"
               className="w-8 h-8 rounded-[8px] border border-white/15 bg-white/10 text-white grid place-items-center cursor-pointer hover:bg-white/20 transition-colors shrink-0"
             >
@@ -461,7 +495,7 @@ export function AiBubble({
                     ) : (
                       <>
                         <IconMic size={13} />
-                        <span>Hablar con Kotton AI</span>
+                        <span>Hablar con Paku</span>
                       </>
                     )}
                   </button>
@@ -512,7 +546,7 @@ export function AiBubble({
                           </div>
                         ) : (
                           <span className="text-[10px] font-semibold text-[#5C5852]">
-                            Kotton AI
+                            Paku
                           </span>
                         )}
 
@@ -717,11 +751,11 @@ export function AiBubble({
               aria-label={
                 voice.status === "listening"
                   ? "Detener micrófono"
-                  : "Hablar por micrófono con Kotton AI"
+                  : "Hablar por micrófono con Paku"
               }
               title={
                 voice.isSttSupported
-                  ? "Hablar con Kotton AI (solicita permiso de micrófono)"
+                  ? "Hablar con Paku (solicita permiso de micrófono)"
                   : "Abrir panel de voz"
               }
               className={`shrink-0 h-10 w-10 rounded-[8px] border grid place-items-center cursor-pointer transition-colors ${

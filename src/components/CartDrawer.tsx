@@ -1,14 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "../hooks/useCart";
 import { siteConfig } from "../config/site";
 import { Button } from "./Button";
 import { QuantitySelector } from "./QuantitySelector";
 import { resolveImage, onImageError } from "../utils/image";
 import { IconArrowUpRight, IconClose, IconSwatches, IconTrash, IconWhatsApp } from "./Icons";
+import { PakuSprite } from "./paku/PakuSprite";
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, updateQty, remove, clear, total, totalUnits, count, whatsappLink } = useCart();
   const drawerRef = useRef<HTMLDivElement>(null);
+  const [quoteReplay, setQuoteReplay] = useState(0);
 
   useEffect(() => {
     if (!open) return;
@@ -160,8 +162,11 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
               <strong className="text-[#171614]">{totalUnits} m</strong>
             </div>
             <div className="h-px bg-[#E6E0D6] my-2.5" />
-            <div className="flex justify-between items-baseline">
-              <span className="font-semibold text-[#171614]">Total referencial</span>
+            <div className="flex items-center justify-between gap-2">
+              <span className="flex items-center gap-2 font-semibold text-[#171614]">
+                {count > 0 && <PakuSprite activity="happy" replay={quoteReplay} className="block h-8 w-auto shrink-0" />}
+                Total referencial
+              </span>
               <span className="font-bold text-[20px] text-[#8E3E27]">
                 S/ {total.toFixed(2)}
               </span>
@@ -175,6 +180,12 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             variant="whatsapp"
             size="lg"
             disabled={items.length === 0}
+            onPointerEnter={event => {
+              if (event.pointerType === "mouse") setQuoteReplay(value => value + 1);
+            }}
+            onFocus={event => {
+              if (event.currentTarget.matches(":focus-visible")) setQuoteReplay(value => value + 1);
+            }}
             onClick={() => {
               if (items.length === 0) return;
               window.open(whatsappLink, "_blank");

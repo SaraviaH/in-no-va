@@ -24,10 +24,12 @@ export function ProductCard({
   product,
   onView,
   onAdd,
+  onQuoteIntent,
 }: {
   product: Product;
   onView: () => void;
   onAdd: () => void;
+  onQuoteIntent: () => void;
 }) {
   const availabilityTone =
     product.disponibilidad === "En stock"
@@ -125,7 +127,17 @@ export function ProductCard({
           <Button variant="ghost" size="sm" onClick={onView}>
             Ficha técnica
           </Button>
-          <Button variant="primary" size="sm" onClick={onAdd}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={onAdd}
+            onPointerEnter={event => {
+              if (event.pointerType === "mouse") onQuoteIntent();
+            }}
+            onFocus={event => {
+              if (event.currentTarget.matches(":focus-visible")) onQuoteIntent();
+            }}
+          >
             Cotizar 1 m
           </Button>
         </div>
