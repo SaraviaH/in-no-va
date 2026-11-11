@@ -7,12 +7,14 @@ import { IconBag, IconClose, IconMenu, IconSearch, IconSparkles } from "./Icons"
 export function Header({
   cartCount,
   onCartOpen,
+  onQuoteIntent,
   onAiOpen,
   searchQuery = "",
   onSearchChange,
 }: {
   cartCount: number;
   onCartOpen: () => void;
+  onQuoteIntent: () => void;
   onAiOpen: () => void;
   searchQuery?: string;
   onSearchChange?: (q: string) => void;
@@ -150,6 +152,12 @@ export function Header({
           <button
             type="button"
             onClick={onCartOpen}
+            onPointerEnter={event => {
+              if (event.pointerType === "mouse") onQuoteIntent();
+            }}
+            onFocus={event => {
+              if (event.currentTarget.matches(":focus-visible")) onQuoteIntent();
+            }}
             aria-label={`Abrir cotización (${cartCount} productos)`}
             className="relative bg-[#171614] text-[#FAF8F5] border border-[#171614] rounded-[10px] h-9 sm:h-10 px-2.5 sm:px-4 inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer font-semibold text-[12px] sm:text-[13px] select-none active:scale-[0.98] transition-[transform,background-color,border-color] duration-150 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[#8E3E27] [@media(hover:hover)_and_(pointer:fine)]:hover:border-[#8E3E27]"
           >

@@ -1,0 +1,78 @@
+:root {
+  color: #1c332d;
+  background: #f3efea;
+  font-family: system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.preview {
+  display: grid;
+  grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(22px, 5vw, 72px);
+  width: min(1160px, calc(100% - 48px));
+  min-height: 100vh;
+  padding-block: 24px;
+  margin-inline: auto;
+}
+
+h1 { margin: 0 0 10px; font: 500 clamp(2.8rem, 6vw, 5rem)/1 Georgia, serif; }
+p { margin: 0; color: #5c5852; font-size: .9rem; line-height: 1.55; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+
+button { cursor: pointer; font: inherit; }
+button:focus-visible { outline: 2px solid #8e3e27; outline-offset: 3px; }
+.controls button {
+  padding: 8px 11px;
+  border: 1px solid #d1c9bc;
+  border-radius: 8px;
+  background: #faf8f5;
+  color: #1c332d;
+  font-size: .8rem;
+}
+.controls button[aria-pressed="true"] { background: #e3ebe4; border-color: #597364; }
+
+.store {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  border: 1px solid #e6e0d6;
+  border-radius: 18px;
+  background: #faf8f5;
+  box-shadow: 0 16px 36px #211a1510;
+}
+.store header { padding: 16px 20px; font: 600 1rem Georgia, serif; letter-spacing: .14em; }
+.store img { display: block; width: 100%; height: 225px; object-fit: cover; }
+.store h2 { margin: 18px 114px 0 20px; font: 500 clamp(1.2rem, 4vw, 2rem)/1.15 Georgia, serif; }
+
+.mascot {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #1c332d;
+}
+.mascot span {
+  padding: 5px 9px;
+  border: 1px solid #e6e0d6;
+  border-radius: 999px;
+  background: white;
+  font-size: .75rem;
+  font-weight: 650;
+}
+.mascot canvas { display: block; height: 112px; width: auto; }
+
+@media (max-width: 680px) {
+  .preview { grid-template-columns: 1fr; align-content: start; width: calc(100% - 32px); }
+  .store { min-height: 350px; }
+  .store img { height: 170px; }
+}

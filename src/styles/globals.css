@@ -208,6 +208,50 @@ a,
   }
 }
 
+/* Animaciones para llamada de voz circular (Voice Call Orb) */
+@keyframes callPulse {
+  0%, 100% {
+    transform: scale(0.96);
+    box-shadow: 0 0 25px rgba(142, 62, 39, 0.25);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 45px rgba(142, 62, 39, 0.45);
+  }
+}
+
+@keyframes callRipple {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes callGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes eqBar {
+  0%, 100% {
+    height: 6px;
+  }
+  50% {
+    height: 22px;
+  }
+}
+
 /* Utilidades estructurales */
 .section-pad {
   padding: 88px 0;

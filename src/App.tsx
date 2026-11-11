@@ -14,6 +14,7 @@ import { CartDrawer } from "./components/CartDrawer";
 import { AiBubble } from "./components/AiBubble";
 import { Modal } from "./components/Modal";
 import { ProductDetail } from "./components/ProductDetail";
+import type { PakuReaction } from "./components/paku/PakuSprite";
 import { products } from "./data/products";
 import { categories } from "./data/categories";
 import { useCart } from "./hooks/useCart";
@@ -47,6 +48,13 @@ export default function App() {
   const [aiOpen, setAiOpen] = useState(false);
   const [aiQuery, setAiQuery] = useState<string | null>(null);
   const [currentSection, setCurrentSection] = useState<StoreSectionId>("inicio");
+  const [pakuReaction, setPakuReaction] = useState<PakuReaction | null>(null);
+
+  const reactWithPaku = useCallback((pose: PakuReaction["pose"]) => {
+    setPakuReaction({ pose, createdAt: performance.now() });
+  }, []);
+
+  const showQuotationReaction = useCallback(() => reactWithPaku("happy"), [reactWithPaku]);
 
   const scrollTo = useCallback((id: StoreSectionId) => {
     setCurrentSection(id);
@@ -80,8 +88,9 @@ export default function App() {
     (p: Product, qty = 1) => {
       add(p, qty);
       push(`Añadido a cotización: ${p.nombre} (${qty} m)`);
+      showQuotationReaction();
     },
-    [add, push]
+    [add, push, showQuotationReaction]
   );
 
   const handleExecuteAssistantAction = useCallback(
@@ -151,6 +160,7 @@ export default function App() {
       <Header
         cartCount={count}
         onCartOpen={() => setCartOpen(true)}
+        onQuoteIntent={showQuotationReaction}
         onAiOpen={() => setAiOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={q => {
@@ -186,6 +196,7 @@ export default function App() {
           onSearchChange={setSearchQuery}
           onView={setSelected}
           onAdd={p => handleAdd(p, 1)}
+          onQuoteIntent={showQuotationReaction}
         />
 
         <AiSection
@@ -207,6 +218,10 @@ export default function App() {
 
       <AiBubble
         open={aiOpen}
+        covered={cartOpen || selected !== null}
+        browsing={currentSection === "catalogo" || currentSection === "categorias"}
+        reaction={pakuReaction}
+        onReact={reactWithPaku}
         onToggle={() => setAiOpen(v => !v)}
         onViewProduct={p => setSelected(p)}
         onAddToCart={p => handleAdd(p, 1)}

@@ -29,6 +29,7 @@ export function FeaturedProducts({
   onSearchChange,
   onView,
   onAdd,
+  onQuoteIntent,
 }: {
   products: Product[];
   filter: string;
@@ -37,6 +38,7 @@ export function FeaturedProducts({
   onSearchChange?: (q: string) => void;
   onView: (p: Product) => void;
   onAdd: (p: Product) => void;
+  onQuoteIntent: () => void;
 }) {
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
 
@@ -182,6 +184,7 @@ export function FeaturedProducts({
                 product={p}
                 onView={() => onView(p)}
                 onAdd={() => onAdd(p)}
+                onQuoteIntent={onQuoteIntent}
               />
             ))}
           </div>

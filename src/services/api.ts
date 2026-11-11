@@ -104,38 +104,99 @@ const CATEGORY_ALIASES: { id: ProductCategoryId; label: string; keywords: string
 ];
 
 function findProductInQuery(q: string): Product | undefined {
-  // Coincidencia por ID explícito (ej. p-01) o por nombre/tipo
-  const byId = products.find(p => q.includes(p.id.toLowerCase()));
+  // Normalizar erratas comunes de tipeo (ej. primum -> premium, algodon -> algodon)
+  const cleanQ = q.replace(/\bprimum\b/g, "premium");
+
+  // 1. Coincidencia por ID explícito (ej. p-01, p-02)
+  const byId = products.find(p => cleanQ.includes(p.id.toLowerCase()));
   if (byId) return byId;
 
-  const byFullName = products.find(p => q.includes(normalizeText(p.nombre)));
+  // 2. Coincidencia por nombre completo o parcial
+  const byFullName = products.find(p => {
+    const normName = normalizeText(p.nombre);
+    return cleanQ.includes(normName) || (cleanQ.length >= 5 && normName.includes(cleanQ));
+  });
   if (byFullName) return byFullName;
 
-  // Coincidencia por alias específicos de partida
-  if (q.includes("algodon pima") || q.includes("pima nube") || q.includes("premium pima")) {
+  // 3. Coincidencia por alias específicos de partida y variantes
+  if (
+    cleanQ.includes("algodon premium") ||
+    cleanQ.includes("algodon pima") ||
+    cleanQ.includes("pima premium") ||
+    cleanQ.includes("pima nube") ||
+    cleanQ.includes("premium pima") ||
+    cleanQ.includes("pima")
+  ) {
     return products.find(p => p.id === "p-01");
   }
-  if (q.includes("lino natural") || q.includes("lino lavado") || q.includes("lino arena")) {
+  if (
+    cleanQ.includes("lino natural") ||
+    cleanQ.includes("lino lavado") ||
+    cleanQ.includes("lino arena") ||
+    cleanQ.includes("lino europeo")
+  ) {
     return products.find(p => p.id === "p-02");
   }
-  if (q.includes("mezcla soft") || q.includes("modal terracota")) {
+  if (
+    cleanQ.includes("mezcla soft") ||
+    cleanQ.includes("modal terracota") ||
+    cleanQ.includes("algodon modal") ||
+    cleanQ.includes("modal")
+  ) {
     return products.find(p => p.id === "p-03");
   }
-  if (q.includes("denim organico") || q.includes("denim indigo")) {
+  if (
+    cleanQ.includes("denim organico") ||
+    cleanQ.includes("denim indigo") ||
+    cleanQ.includes("sarga denim") ||
+    cleanQ.includes("denim") ||
+    cleanQ.includes("jean")
+  ) {
     return products.find(p => p.id === "p-04");
   }
-  if (q.includes("seda charmeuse") || q.includes("charmeuse mostaza") || q.includes("charmeuse")) {
+  if (
+    cleanQ.includes("seda charmeuse") ||
+    cleanQ.includes("charmeuse mostaza") ||
+    cleanQ.includes("seda saten") ||
+    cleanQ.includes("charmeuse") ||
+    cleanQ.includes("seda")
+  ) {
     return products.find(p => p.id === "p-05");
   }
-  if (q.includes("punto canale") || q.includes("canale salvia") || q.includes("canale")) {
+  if (
+    cleanQ.includes("punto canale") ||
+    cleanQ.includes("canale salvia") ||
+    cleanQ.includes("punto rib") ||
+    cleanQ.includes("canale") ||
+    cleanQ.includes("rib")
+  ) {
     return products.find(p => p.id === "p-06");
   }
-  if (q.includes("algodon crudo") || q.includes("organico crudo") || q.includes("tocuyo")) {
+  if (
+    cleanQ.includes("algodon crudo") ||
+    cleanQ.includes("organico crudo") ||
+    cleanQ.includes("tocuyo") ||
+    cleanQ.includes("algodon organico")
+  ) {
     return products.find(p => p.id === "p-07");
   }
-  if (q.includes("lino terracota")) {
+  if (
+    cleanQ.includes("lino terracota") ||
+    cleanQ.includes("lino rustico") ||
+    cleanQ.includes("lino pesado")
+  ) {
     return products.find(p => p.id === "p-08");
   }
+
+  // 4. Token overlap: Si coincide con 2 o más palabras clave del nombre
+  for (const prod of products) {
+    const tokens = normalizeText(prod.nombre).split(" ").filter(t => t.length > 3);
+    const matches = tokens.filter(t => cleanQ.includes(t));
+    if (matches.length >= 2) {
+      return prod;
+    }
+  }
+
   return undefined;
 }
 
@@ -494,23 +555,31 @@ export const api = {
       const matchedCat = CATEGORY_ALIASES.find(c => c.keywords.some(kw => q.includes(kw)));
       if (matchedCat) {
         const catProducts = products.filter(p => p.categoria === matchedCat.id);
+        const shouldScroll =
+          q.includes("ir al catalogo") ||
+          q.includes("abre el catalogo") ||
+          q.includes("ve al catalogo") ||
+          q.includes("baja al catalogo");
+
         return {
-          text: `He filtrado el catálogo por la familia "${matchedCat.label}" (${catProducts.length} ${catProducts.length === 1 ? "partida disponible" : "partidas disponibles"}) y desplazado la vista hacia el muestrario:`,
+          text: `Aquí tienes las telas disponibles de la familia "${matchedCat.label}" (${catProducts.length} ${catProducts.length === 1 ? "partida" : "partidas"}). Puedes deslizar o cambiar de ficha para revisar las especificaciones de cada una:`,
           products: catProducts,
           detectedIntent: `Filtro · Categoría ${matchedCat.label}`,
           matchedAttributes: [
             `Familia: ${matchedCat.label}`,
             `${catProducts.length} ${catProducts.length === 1 ? "partida" : "partidas"}`,
           ],
-          actions: sanitizeActions([
-            {
-              type: "filterProducts",
-              category: matchedCat.id,
-              label: `Filtrar catálogo: ${matchedCat.label}`,
-            },
-            { type: "searchProducts", query: "", label: "Limpiar término de búsqueda" },
-            { type: "scrollToSection", sectionId: "catalogo", label: "Ir al Catálogo" },
-          ]),
+          actions: shouldScroll
+            ? sanitizeActions([
+                {
+                  type: "filterProducts",
+                  category: matchedCat.id,
+                  label: `Filtrar catálogo: ${matchedCat.label}`,
+                },
+                { type: "searchProducts", query: "", label: "Limpiar término de búsqueda" },
+                { type: "scrollToSection", sectionId: "catalogo", label: "Ir al Catálogo" },
+              ])
+            : undefined,
         };
       }
     }
@@ -529,19 +598,26 @@ export const api = {
       const matchedCat = CATEGORY_ALIASES.find(c => c.keywords.some(kw => rawTerm === kw));
       if (matchedCat) {
         const catProducts = products.filter(p => p.categoria === matchedCat.id);
+        const shouldScroll =
+          q.includes("ir al catalogo") ||
+          q.includes("ve al catalogo") ||
+          q.includes("baja al catalogo");
+
         return {
-          text: `Filtrando el muestrario por la categoría "${matchedCat.label}":`,
+          text: `Encontré estas opciones para "${matchedCat.label}". Desliza entre las fichas para ver las características técnicas:`,
           products: catProducts,
           detectedIntent: `Búsqueda · ${matchedCat.label}`,
           matchedAttributes: [`Categoría: ${matchedCat.label}`],
-          actions: sanitizeActions([
-            {
-              type: "filterProducts",
-              category: matchedCat.id,
-              label: `Filtrar por ${matchedCat.label}`,
-            },
-            { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-          ]),
+          actions: shouldScroll
+            ? sanitizeActions([
+                {
+                  type: "filterProducts",
+                  category: matchedCat.id,
+                  label: `Filtrar por ${matchedCat.label}`,
+                },
+                { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
+              ])
+            : undefined,
         };
       }
 
@@ -621,19 +697,22 @@ export const api = {
         : "";
       const detalles = [g, e].filter(Boolean).join(" y ");
       return {
-        text: `El tejido "${specificProduct.nombre}" (${specificProduct.material}) es de ligamento ${specificProduct.tipoTejido || specificProduct.tipo}${detalles ? ` ${detalles}` : ""}. Se recomienda principalmente para: ${specificProduct.usos.join(", ")}.`,
+        text: `¡Claro! Aquí tienes la ficha de "${specificProduct.nombre}" (${specificProduct.material}). Es un tejido con gramaje de ${specificProduct.gramaje || "160 g/m²"}, ligamento ${specificProduct.tipoTejido || specificProduct.tipo}${detalles ? ` ${detalles}` : ""}. Recomendado para: ${specificProduct.usos.slice(0, 3).join(", ")}.`,
         products: [specificProduct],
         detectedIntent: "Consulta de producto",
         matchedAttributes: [specificProduct.material, specificProduct.gramaje || "Estándar"].filter(
           Boolean
         ),
-        actions: sanitizeActions([
-          {
-            type: "openProduct",
-            productId: specificProduct.id,
-            label: `Abrir ficha: ${specificProduct.nombre}`,
-          },
-        ]),
+        actions:
+          q.includes("abre la ficha") || q.includes("abrir ficha") || q.includes("ver ficha")
+            ? sanitizeActions([
+                {
+                  type: "openProduct",
+                  productId: specificProduct.id,
+                  label: `Abrir ficha: ${specificProduct.nombre}`,
+                },
+              ])
+            : undefined,
       };
     }
 
@@ -657,10 +736,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Línea Bebé / Infantil",
         matchedAttributes: ["100% Algodón Pima", "Hipoalergénico", "Punto suave"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "algodon", label: "Filtrar catálogo: Algodón" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -681,10 +756,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Ropa Deportiva / Elástica",
         matchedAttributes: ["Elasticidad Alta", "Punto con elastano", "Confort térmico"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "mezclas", label: "Filtrar catálogo: Mezclas" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -698,10 +769,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Pijamería / Descanso",
         matchedAttributes: ["Transpirabilidad", "Tacto sedoso", "Libertad de movimiento"],
-        actions: sanitizeActions([
-          { type: "searchProducts", query: "dormir", label: "Ver telas de descanso en catálogo" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ir al catálogo" },
-        ]),
       };
     }
 
@@ -722,10 +789,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Prendas Frescas / Verano",
         matchedAttributes: ["100% Lino", "Algodón transpirable", "Fibra natural"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "lino", label: "Filtrar catálogo: Lino" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -743,10 +806,6 @@ export const api = {
         products: matches,
         detectedIntent: "Denim / Prendas Resistentes",
         matchedAttributes: ["Gramaje pesado", "Sarga 3x1", "Alta resistencia"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "denim", label: "Filtrar catálogo: Denim" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -768,10 +827,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Alta Moda / Vestidos",
         matchedAttributes: ["Caída fluida", "Seda natural", "Acabado satinado"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "seda", label: "Filtrar catálogo: Seda" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
