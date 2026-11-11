@@ -10,6 +10,7 @@ import { api, validateAssistantAction } from "../services/api";
 import { useVoiceAssistant, type VoiceStatus } from "../hooks/useVoiceAssistant";
 import { PakuSprite, type PakuActivity, type PakuReaction } from "./paku/PakuSprite";
 import { PakuProductDeck } from "./paku/PakuProductDeck";
+import { PakuVoiceCallModal } from "./paku/PakuVoiceCallModal";
 import {
   IconCheck,
   IconClose,
@@ -17,6 +18,7 @@ import {
   IconMic,
   IconMicOff,
   IconPause,
+  IconPhone,
   IconPlay,
   IconSend,
   IconSparkles,
@@ -116,6 +118,7 @@ export function AiBubble({
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [confirmedMsgIds, setConfirmedMsgIds] = useState<Record<string, "confirmed" | "cancelled">>({});
+  const [isCallOpen, setIsCallOpen] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -701,6 +704,17 @@ export function AiBubble({
             }}
             className="p-2.5 flex gap-2 border-t border-[#E6E0D6] bg-white items-center min-w-0"
           >
+            {/* Botón de llamada interactiva con Paku */}
+            <button
+              type="button"
+              onClick={() => setIsCallOpen(true)}
+              aria-label="Iniciar llamada de voz interactiva con Paku"
+              title="Llamada de voz con Paku (Burbuja animada)"
+              className="shrink-0 h-10 w-10 rounded-[8px] border border-[#1C332D] bg-[#1C332D] text-white hover:bg-[#8E3E27] hover:border-[#8E3E27] grid place-items-center cursor-pointer transition-colors shadow-2xs"
+            >
+              <IconPhone size={16} />
+            </button>
+
             <button
               type="button"
               onClick={() => {
@@ -755,6 +769,18 @@ export function AiBubble({
           </form>
         </div>
       )}
+
+      {/* Modal / Vista de llamada de voz interactiva con animación circular y ficha técnica */}
+      <PakuVoiceCallModal
+        open={isCallOpen}
+        onClose={() => setIsCallOpen(false)}
+        voice={voice}
+        messages={messages}
+        loading={loading}
+        onSendQuery={text => void send(text, true)}
+        onViewProduct={onViewProduct}
+        onAddToCart={onAddToCart}
+      />
     </>
   );
 }
