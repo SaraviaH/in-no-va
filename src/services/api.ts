@@ -555,23 +555,31 @@ export const api = {
       const matchedCat = CATEGORY_ALIASES.find(c => c.keywords.some(kw => q.includes(kw)));
       if (matchedCat) {
         const catProducts = products.filter(p => p.categoria === matchedCat.id);
+        const shouldScroll =
+          q.includes("ir al catalogo") ||
+          q.includes("abre el catalogo") ||
+          q.includes("ve al catalogo") ||
+          q.includes("baja al catalogo");
+
         return {
-          text: `He filtrado el catálogo por la familia "${matchedCat.label}" (${catProducts.length} ${catProducts.length === 1 ? "partida disponible" : "partidas disponibles"}) y desplazado la vista hacia el muestrario:`,
+          text: `Aquí tienes las telas disponibles de la familia "${matchedCat.label}" (${catProducts.length} ${catProducts.length === 1 ? "partida" : "partidas"}). Puedes deslizar o cambiar de ficha para revisar las especificaciones de cada una:`,
           products: catProducts,
           detectedIntent: `Filtro · Categoría ${matchedCat.label}`,
           matchedAttributes: [
             `Familia: ${matchedCat.label}`,
             `${catProducts.length} ${catProducts.length === 1 ? "partida" : "partidas"}`,
           ],
-          actions: sanitizeActions([
-            {
-              type: "filterProducts",
-              category: matchedCat.id,
-              label: `Filtrar catálogo: ${matchedCat.label}`,
-            },
-            { type: "searchProducts", query: "", label: "Limpiar término de búsqueda" },
-            { type: "scrollToSection", sectionId: "catalogo", label: "Ir al Catálogo" },
-          ]),
+          actions: shouldScroll
+            ? sanitizeActions([
+                {
+                  type: "filterProducts",
+                  category: matchedCat.id,
+                  label: `Filtrar catálogo: ${matchedCat.label}`,
+                },
+                { type: "searchProducts", query: "", label: "Limpiar término de búsqueda" },
+                { type: "scrollToSection", sectionId: "catalogo", label: "Ir al Catálogo" },
+              ])
+            : undefined,
         };
       }
     }
@@ -590,19 +598,26 @@ export const api = {
       const matchedCat = CATEGORY_ALIASES.find(c => c.keywords.some(kw => rawTerm === kw));
       if (matchedCat) {
         const catProducts = products.filter(p => p.categoria === matchedCat.id);
+        const shouldScroll =
+          q.includes("ir al catalogo") ||
+          q.includes("ve al catalogo") ||
+          q.includes("baja al catalogo");
+
         return {
-          text: `Filtrando el muestrario por la categoría "${matchedCat.label}":`,
+          text: `Encontré estas opciones para "${matchedCat.label}". Desliza entre las fichas para ver las características técnicas:`,
           products: catProducts,
           detectedIntent: `Búsqueda · ${matchedCat.label}`,
           matchedAttributes: [`Categoría: ${matchedCat.label}`],
-          actions: sanitizeActions([
-            {
-              type: "filterProducts",
-              category: matchedCat.id,
-              label: `Filtrar por ${matchedCat.label}`,
-            },
-            { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-          ]),
+          actions: shouldScroll
+            ? sanitizeActions([
+                {
+                  type: "filterProducts",
+                  category: matchedCat.id,
+                  label: `Filtrar por ${matchedCat.label}`,
+                },
+                { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
+              ])
+            : undefined,
         };
       }
 
@@ -721,10 +736,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Línea Bebé / Infantil",
         matchedAttributes: ["100% Algodón Pima", "Hipoalergénico", "Punto suave"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "algodon", label: "Filtrar catálogo: Algodón" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -745,10 +756,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Ropa Deportiva / Elástica",
         matchedAttributes: ["Elasticidad Alta", "Punto con elastano", "Confort térmico"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "mezclas", label: "Filtrar catálogo: Mezclas" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -762,10 +769,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Pijamería / Descanso",
         matchedAttributes: ["Transpirabilidad", "Tacto sedoso", "Libertad de movimiento"],
-        actions: sanitizeActions([
-          { type: "searchProducts", query: "dormir", label: "Ver telas de descanso en catálogo" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ir al catálogo" },
-        ]),
       };
     }
 
@@ -786,10 +789,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Prendas Frescas / Verano",
         matchedAttributes: ["100% Lino", "Algodón transpirable", "Fibra natural"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "lino", label: "Filtrar catálogo: Lino" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -807,10 +806,6 @@ export const api = {
         products: matches,
         detectedIntent: "Denim / Prendas Resistentes",
         matchedAttributes: ["Gramaje pesado", "Sarga 3x1", "Alta resistencia"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "denim", label: "Filtrar catálogo: Denim" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
@@ -832,10 +827,6 @@ export const api = {
         products: matches.slice(0, 3),
         detectedIntent: "Alta Moda / Vestidos",
         matchedAttributes: ["Caída fluida", "Seda natural", "Acabado satinado"],
-        actions: sanitizeActions([
-          { type: "filterProducts", category: "seda", label: "Filtrar catálogo: Seda" },
-          { type: "scrollToSection", sectionId: "catalogo", label: "Ver en catálogo" },
-        ]),
       };
     }
 
