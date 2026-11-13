@@ -55,6 +55,7 @@ export default function App() {
   }, []);
 
   const showQuotationReaction = useCallback(() => reactWithPaku("happy"), [reactWithPaku]);
+  const closeCart = useCallback(() => setCartOpen(false), []);
 
   const scrollTo = useCallback((id: StoreSectionId) => {
     setCurrentSection(id);
@@ -214,7 +215,7 @@ export default function App() {
 
       <Footer />
 
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartDrawer open={cartOpen} onClose={closeCart} />
 
       <AiBubble
         open={aiOpen}

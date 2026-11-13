@@ -7,11 +7,14 @@ import heroImage from "../../src/assets/images/hero/hero-main.jpg";
 const controls: { label: string; activity: PakuActivity }[] = [
   { label: "En reposo", activity: "idle" },
   { label: "Saludar", activity: "wave" },
-  { label: "Mover orejas", activity: "ears" },
+  { label: "Sonreír", activity: "smile" },
+  { label: "Curiosidad", activity: "curious" },
   { label: "Celebrar", activity: "happy" },
   { label: "Escuchar", activity: "listening" },
   { label: "Pensar", activity: "thinking" },
   { label: "Responder", activity: "speaking" },
+  { label: "Caminar a la izquierda", activity: "walkLeft" },
+  { label: "Caminar a la derecha", activity: "walkRight" },
 ];
 
 function Preview() {
