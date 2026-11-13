@@ -3,20 +3,20 @@ import { FRAME_HEIGHT, FRAME_WIDTH, HEADROOM, loadPakuAtlas, POSES } from "./pak
 
 export type PakuActivity = Exclude<keyof typeof POSES, "rest">;
 export type PakuReaction = {
-  pose: "wave" | "happy";
+  pose: "wave" | "happy" | "lookLeft" | "lookRight";
   createdAt: number;
 };
 type Pose = keyof typeof POSES;
 
 const AMBIENT_GESTURES = [
   { pose: "idle", delay: 3000 },
-  { pose: "ears", delay: 4700 },
-  { pose: "happy", delay: 6800 },
+  { pose: "curious", delay: 4700 },
+  { pose: "smile", delay: 5800 },
   { pose: "wave", delay: 5300 },
 ] as const;
 
 const BROWSING_GESTURES = [
-  { pose: "ears", delay: 1900 },
+  { pose: "curious", delay: 1900 },
   { pose: "idle", delay: 4300 },
   { pose: "wave", delay: 5800 },
   { pose: "happy", delay: 6200 },
@@ -50,15 +50,19 @@ export function PakuSprite({
     if (!canvas || !context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let sprite: HTMLImageElement | undefined;
+    let sprites: HTMLImageElement[] | undefined;
     let timer: number | undefined;
     let disposed = false;
 
     function draw(pose: Pose, index = 0) {
-      if (!sprite || !canvas || !context) return;
-      const [[x, y], , rise = 0] = POSES[pose][index];
+      if (!sprites || !canvas || !context) return;
+      const [frame, , rise = 0] = POSES[pose][index];
       context.clearRect(0, 0, FRAME_WIDTH, canvas.height);
-      context.drawImage(sprite, x, y, FRAME_WIDTH, FRAME_HEIGHT, 0, HEADROOM - rise, FRAME_WIDTH, FRAME_HEIGHT);
+      context.drawImage(
+        sprites[frame.sheet],
+        frame.x, frame.y, frame.width, frame.height,
+        0, HEADROOM - rise, FRAME_WIDTH, FRAME_HEIGHT
+      );
       canvas.dataset.pose = pose;
       canvas.dataset.frame = String(index);
     }
@@ -93,11 +97,14 @@ export function PakuSprite({
 
     function refresh() {
       window.clearTimeout(timer);
-      if (!sprite) return;
+      if (!sprites) return;
       draw("rest");
 
       if (document.hidden || reducedMotion.matches) return;
-      if (activity === "listening" || activity === "thinking" || activity === "speaking") {
+      if (
+        activity === "listening" || activity === "thinking" || activity === "speaking" ||
+        activity === "walkLeft" || activity === "walkRight"
+      ) {
         const repeat = () => play(activity, repeat);
         repeat();
       } else if (
@@ -120,9 +127,9 @@ export function PakuSprite({
       }
     }
 
-    void loadPakuAtlas().then(image => {
+    void loadPakuAtlas(activity === "walkLeft" || activity === "walkRight").then(images => {
       if (disposed) return;
-      sprite = image;
+      sprites = images;
       refresh();
     }).catch(() => {
       if (!disposed) canvas.dataset.pose = "unavailable";

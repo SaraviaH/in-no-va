@@ -11,6 +11,7 @@ import { useVoiceAssistant, type VoiceStatus } from "../hooks/useVoiceAssistant"
 import { PakuSprite, type PakuActivity, type PakuReaction } from "./paku/PakuSprite";
 import { PakuProductDeck } from "./paku/PakuProductDeck";
 import { PakuVoiceCallModal } from "./paku/PakuVoiceCallModal";
+import { usePakuRoaming } from "./paku/usePakuRoaming";
 import {
   IconCheck,
   IconClose,
@@ -121,9 +122,14 @@ export function AiBubble({
   const [isCallOpen, setIsCallOpen] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const roamingRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const contextRef = useRef(navigationContext);
   const panelVisible = open && !covered;
+  const roaming = usePakuRoaming(roamingRef, !open && !covered && !isCallOpen, reaction);
+  const launcherReaction = reaction && reaction.createdAt >= (roaming.attention?.createdAt ?? 0)
+    ? reaction
+    : roaming.attention;
 
   useEffect(() => {
     contextRef.current = navigationContext;
@@ -272,37 +278,44 @@ export function AiBubble({
   return (
     <>
       {!open ? (
-        <button
-          ref={launcherRef}
-          type="button"
-          onClick={onToggle}
-          onPointerEnter={event => {
-            if (event.pointerType === "mouse") onReact("wave");
-          }}
-          onFocus={event => {
-            if (event.currentTarget.matches(":focus-visible")) onReact("wave");
-          }}
-          aria-label="Conversar con Paku, asesor textil"
-          aria-expanded={false}
-          aria-haspopup="dialog"
-          className="fixed right-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8E3E27] sm:right-6 sm:bottom-6 flex flex-col items-end gap-1.5 transition-transform duration-200 active:scale-95 group"
+        <div
+          key="mascot"
+          ref={roamingRef}
+          className="fixed right-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 sm:right-6 sm:bottom-6"
         >
-          {/* Bocadillo interactivo visible en móvil y desktop */}
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E6E0D6] bg-white/95 backdrop-blur-xs px-3.5 py-1.5 text-xs font-semibold text-[#1C332D] shadow-[0_6px_20px_rgba(23,22,20,0.12)] group-hover:border-[#8E3E27]/50 transition-colors">
-            <span>¡Hola! Soy Paku</span>
-            <span className="text-[13px] animate-bounce">🦙</span>
-            <span className="hidden sm:inline text-[#8E3E27] font-normal">· ¿Te ayudo con tus telas?</span>
-          </span>
+          <button
+            ref={launcherRef}
+            type="button"
+            onClick={onToggle}
+            onPointerEnter={event => {
+              if (event.pointerType === "mouse") onReact("wave");
+            }}
+            onFocus={event => {
+              if (event.currentTarget.matches(":focus-visible")) onReact("wave");
+            }}
+            aria-label="Conversar con Paku, asesor textil"
+            aria-expanded={false}
+            aria-haspopup="dialog"
+            className="cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8E3E27] flex flex-col items-end gap-1.5 transition-transform duration-200 active:scale-95 group"
+          >
+            {/* Bocadillo interactivo visible en móvil y desktop */}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E6E0D6] bg-white/95 backdrop-blur-xs px-3.5 py-1.5 text-xs font-semibold text-[#1C332D] shadow-[0_6px_20px_rgba(23,22,20,0.12)] group-hover:border-[#8E3E27]/50 transition-colors">
+              <span>¡Hola! Soy Paku</span>
+              <span className="hidden sm:inline text-[#8E3E27] font-normal">· ¿Te ayudo con tus telas?</span>
+            </span>
 
-          <PakuSprite
-            ambient
-            browsing={browsing}
-            reaction={reaction}
-            className="block h-[84px] w-auto sm:h-[120px] drop-shadow-[0_10px_22px_rgba(23,22,20,0.2)]"
-          />
-        </button>
+            <PakuSprite
+              activity={roaming.activity}
+              ambient={roaming.activity === "idle"}
+              browsing={browsing}
+              reaction={launcherReaction}
+              className="block h-[84px] w-auto sm:h-[120px] drop-shadow-[0_10px_22px_rgba(23,22,20,0.2)]"
+            />
+          </button>
+        </div>
       ) : (
         <div
+          key="chat"
           ref={panelRef}
           id="paku-panel"
           role="dialog"
